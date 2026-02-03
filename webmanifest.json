@@ -1,0 +1,20 @@
+{
+  "name": "BetNet - Bloqueador",
+  "short_name": "BetNet",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "icons/icon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png", 
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

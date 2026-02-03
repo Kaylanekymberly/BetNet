@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BetNet - Site Bloqueado</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      text-align: center;
+      animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 60px 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .icon {
+      font-size: 100px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 25px;
+      font-weight: 500;
+      opacity: 0.95;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .warning-box {
+      background: rgba(255, 193, 7, 0.2);
+      border: 2px solid rgba(255, 193, 7, 0.6);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+
+    .warning-box h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #ffd700;
+    }
+
+    .warning-box p {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+
+    .help-section {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      text-align: left;
+    }
+
+    .help-section h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .help-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .help-section li {
+      margin-bottom: 12px;
+      padding-left: 30px;
+      position: relative;
+      font-size: 16px;
+    }
+
+    .help-section li:before {
+      content: "📞";
+      position: absolute;
+      left: 0;
+      font-size: 20px;
+    }
+
+    .help-section a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .help-section a:hover {
+      text-decoration: underline;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .button {
+      padding: 15px 35px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+    }
+
+    .button-primary {
+      background: white;
+      color: #667eea;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+    }
+
+    .button-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px 30px;
+      border-radius: 10px;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="icon">🛡️</div>
+      <h1>BetNet</h1>
+      <h2>Site Bloqueado</h2>
+      
+      <p>
+        Este site de apostas foi bloqueado pela extensão BetNet para sua proteção.
+        Sites de apostas e jogos de azar podem causar dependência e problemas financeiros graves.
+      </p>
+
+      <div class="warning-box">
+        <h3>⚠️ Atenção</h3>
+        <p>
+          O jogo compulsivo é um problema sério que afeta milhões de pessoas.
+          Se você sente que está perdendo o controle, não hesite em buscar ajuda.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number" id="blockedToday">0</div>
+          <div class="stat-label">Sites bloqueados hoje</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="savedMoney">R$ 0</div>
+          <div class="stat-label">Economia estimada</div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <h3>🆘 Precisa de Ajuda?</h3>
+        <ul>
+          <li>CVV (Centro de Valorização da Vida): <a href="tel:188">188</a></li>
+          <li>Jogadores Anônimos: <a href="https://www.jogadoresanonimos.com.br" target="_blank">jogadoresanonimos.com.br</a></li>
+          <li>CAPS (Centro de Atenção Psicossocial): <a href="https://www.gov.br/saude" target="_blank">Procure uma unidade</a></li>
+        </ul>
+      </div>
+
+      <div class="buttons">
+        <a href="https://www.google.com" class="button button-primary">
+          Ir para Página Segura
+        </a>
+        <button onclick="history.back()" class="button button-secondary">
+          Voltar
+        </button>
+      </div>
+
+      <div class="footer">
+        <p>BetNet v1.0.0 | Protegendo você de sites nocivos</p>
+        <p>💙 Sua saúde mental e financeira importa</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Carrega estatísticas
+    chrome.storage.local.get(['blockedCount'], (result) => {
+      document.getElementById('blockedToday').textContent = result.blockedCount || 0;
+      
+      // Estima economia (média de R$ 100 por acesso bloqueado)
+      const savedMoney = (result.blockedCount || 0) * 100;
+      document.getElementById('savedMoney').textContent = 
+        'R$ ' + savedMoney.toLocaleString('pt-BR');
+    });
+
+    // Previne navegação por atalhos
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && (e.key === 'w' || e.key === 't')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
