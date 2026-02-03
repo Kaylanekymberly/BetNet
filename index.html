@@ -58,7 +58,29 @@
 <!-- Seção 1: CTA Hero (SEM BOTÃO - REMOVIDO) -->
 <section class="py-20 bg-[#1a1f2e] flex items-center justify-center">
     <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div id="downloadModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+    <div class="bg-gray-900 border border-purple-500 p-8 rounded-2xl max-w-md w-full shadow-2xl">
+        <h3 class="text-2xl font-bold text-white mb-4">✅ Baixou com sucesso!</h3>
+        <a href="betnet-extensao.zip" 
+   download="betnet-extensao.zip" 
+   onclick="document.getElementById('downloadModal').classList.remove('hidden')"
+   class="suas-classes-de-estilo-aqui">
+   Ativar Proteção Total (Baixar Extensão)
+</a>
+        <p class="text-gray-300 mb-6">Agora siga estes passos para ativar sua proteção no Chrome:</p>
         
+        <ol class="text-left text-gray-300 space-y-4 mb-8">
+            <li>1️⃣ Vá em <code class="bg-black px-2 py-1 rounded text-pink-400">chrome://extensions</code></li>
+            <li>2️⃣ Ative o <strong>"Modo do Desenvolvedor"</strong> no canto superior direito.</li>
+            <li>3️⃣ Arraste o arquivo <span class="text-purple-400">betnet-extensao.zip</span> para dentro da página.</li>
+        </ol>
+
+        <button onclick="document.getElementById('downloadModal').classList.add('hidden')" 
+                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-3 rounded-xl font-bold text-white">
+            Entendi, vamos lá!
+        </button>
+    </div>
+</div>
         <!-- Texto à esquerda -->
         <div class="space-y-6">
             <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
