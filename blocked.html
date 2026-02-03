@@ -1,296 +1,349 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BetNet - Site Bloqueado</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetNet - Proteção Digital Contra Apostas Online</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Animações customizadas */
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.75; }
+            50% { opacity: 0.5; }
+        }
+        
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+        
+        .animate-fade-in {
+            animation: fade-in 0.6s ease-out;
+        }
+        
+        .animate-pulse {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 600px;
-      text-align: center;
-      animation: fadeIn 0.6s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 60px 40px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-    }
-
-    .icon {
-      font-size: 100px;
-      margin-bottom: 20px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-    }
-
-    h1 {
-      font-size: 48px;
-      margin-bottom: 15px;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 28px;
-      margin-bottom: 25px;
-      font-weight: 500;
-      opacity: 0.95;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      opacity: 0.9;
-    }
-
-    .warning-box {
-      background: rgba(255, 193, 7, 0.2);
-      border: 2px solid rgba(255, 193, 7, 0.6);
-      border-radius: 15px;
-      padding: 25px;
-      margin: 30px 0;
-    }
-
-    .warning-box h3 {
-      font-size: 22px;
-      margin-bottom: 15px;
-      color: #ffd700;
-    }
-
-    .warning-box p {
-      font-size: 16px;
-      margin-bottom: 0;
-    }
-
-    .help-section {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 15px;
-      padding: 25px;
-      margin: 25px 0;
-      text-align: left;
-    }
-
-    .help-section h3 {
-      font-size: 20px;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .help-section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .help-section li {
-      margin-bottom: 12px;
-      padding-left: 30px;
-      position: relative;
-      font-size: 16px;
-    }
-
-    .help-section li:before {
-      content: "📞";
-      position: absolute;
-      left: 0;
-      font-size: 20px;
-    }
-
-    .help-section a {
-      color: #ffd700;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .help-section a:hover {
-      text-decoration: underline;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .button {
-      padding: 15px 35px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-      transition: all 0.3s;
-      cursor: pointer;
-      border: none;
-      display: inline-block;
-    }
-
-    .button-primary {
-      background: white;
-      color: #667eea;
-    }
-
-    .button-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
-    }
-
-    .button-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid white;
-    }
-
-    .button-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
-    }
-
-    .footer {
-      margin-top: 40px;
-      font-size: 14px;
-      opacity: 0.7;
-    }
-
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 25px 0;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 20px 30px;
-      border-radius: 10px;
-    }
-
-    .stat-number {
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .stat-label {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <div class="card">
-      <div class="icon">🛡️</div>
-      <h1>BetNet</h1>
-      <h2>Site Bloqueado</h2>
-      
-      <p>
-        Este site de apostas foi bloqueado pela extensão BetNet para sua proteção.
-        Sites de apostas e jogos de azar podem causar dependência e problemas financeiros graves.
-      </p>
+<body class="bg-[#0b0e14] text-white">
 
-      <div class="warning-box">
-        <h3>⚠️ Atenção</h3>
-        <p>
-          O jogo compulsivo é um problema sério que afeta milhões de pessoas.
-          Se você sente que está perdendo o controle, não hesite em buscar ajuda.
-        </p>
-      </div>
+<!-- Seção 1: CTA Hero (SEM BOTÃO - REMOVIDO) -->
+<section class="py-20 bg-[#1a1f2e] flex items-center justify-center">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Texto à esquerda -->
+        <div class="space-y-6">
+            <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+                Quero convidar você para ser uma das primeiras pessoas a testar o Beta Fechado
+                e ajudar a moldar o futuro da nossa proteção digital.
+            </h2>
 
-      <div class="stats">
-        <div class="stat-item">
-          <div class="stat-number" id="blockedToday">0</div>
-          <div class="stat-label">Sites bloqueados hoje</div>
+            <ul class="space-y-4 text-lg text-gray-300">
+                <li class="flex items-start gap-3">
+                    <span class="text-purple-400 text-xl flex-shrink-0">•</span>
+                    <span>Quero entrar na lista de espera</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-purple-400 text-xl flex-shrink-0">•</span>
+                    <span>Click em Saiba mais para ter maiores informações</span>
+                </li>
+            </ul>
+
+            <!-- BOTÃO ÚNICO: Link direto para Google Forms -->
+            <a 
+                href="https://docs.google.com/forms/d/e/1FAIpQLScES6edmJfrx3KeOmK-bRIWH-V1ipmWCwdlDHbZ5HyY6ueN9A/viewform" 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-purple-500/30">
+                Saiba mais
+            </a>
         </div>
-        <div class="stat-item">
-          <div class="stat-number" id="savedMoney">R$ 0</div>
-          <div class="stat-label">Economia estimada</div>
+
+        <!-- Mockup à direita -->
+        <div class="flex justify-center lg:justify-end">
+            <div class="relative group">
+                <!-- Efeito de brilho ao redor -->
+                <div class="absolute -inset-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl opacity-30 group-hover:opacity-50 blur-2xl transition-opacity"></div>
+                <!-- Imagem do laptop -->
+                <img src="mockup-laptop.jpg" alt="BetNet - Proteção ativa contra padrões predatórios" class="relative w-full max-w-md rounded-2xl shadow-2xl">
+            </div>
         </div>
-      </div>
-
-      <div class="help-section">
-        <h3>🆘 Precisa de Ajuda?</h3>
-        <ul>
-          <li>CVV (Centro de Valorização da Vida): <a href="tel:188">188</a></li>
-          <li>Jogadores Anônimos: <a href="https://www.jogadoresanonimos.com.br" target="_blank">jogadoresanonimos.com.br</a></li>
-          <li>CAPS (Centro de Atenção Psicossocial): <a href="https://www.gov.br/saude" target="_blank">Procure uma unidade</a></li>
-        </ul>
-      </div>
-
-      <div class="buttons">
-        <a href="https://www.google.com" class="button button-primary">
-          Ir para Página Segura
-        </a>
-        <button onclick="history.back()" class="button button-secondary">
-          Voltar
-        </button>
-      </div>
-
-      <div class="footer">
-        <p>BetNet v1.0.0 | Protegendo você de sites nocivos</p>
-        <p>💙 Sua saúde mental e financeira importa</p>
-      </div>
     </div>
-  </div>
 
-  <script>
-    // Carrega estatísticas
-    chrome.storage.local.get(['blockedCount'], (result) => {
-      document.getElementById('blockedToday').textContent = result.blockedCount || 0;
-      
-      // Estima economia (média de R$ 100 por acesso bloqueado)
-      const savedMoney = (result.blockedCount || 0) * 100;
-      document.getElementById('savedMoney').textContent = 
-        'R$ ' + savedMoney.toLocaleString('pt-BR');
-    });
+    <!-- Frase de impacto centralizada -->
+    <div class="max-w-6xl mx-auto px-6 mt-20">
+        <div class="text-center py-12 border-t border-b border-purple-500/20">
+            <p class="text-3xl md:text-4xl font-bold text-white">
+                Essa ferramenta nasceu para gerar 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+                    impacto real
+                </span>.
+            </p>
+        </div>
+    </div>
+</section>
 
-    // Previne navegação por atalhos
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && (e.key === 'w' || e.key === 't')) {
-        e.preventDefault();
-      }
-    });
-  </script>
+<!-- Seção 2: Onde o governo se abstém (SEM BOTÃO E SEM MOCKUP - REMOVIDOS) -->
+<section class="py-20 bg-[#1a1f2e] flex items-center justify-center">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        
+        <div class="space-y-6 max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+                Onde <span class="text-red-500">o governo se abstém</span>, a <span class="text-white">BetNet protege</span>
+            </h2>
+
+            <p class="text-xl text-gray-300 font-semibold">
+                Sua camada de proteção social contra conteúdos tóxicos e riscos financeiros.
+            </p>
+
+            <p class="text-lg text-gray-400 leading-relaxed">
+                As apostas foram aprovadas sem barreiras sociais. Construí a tecnologia que devolve o 
+                controle da sua saúde financeira e mental para suas mãos.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Seção do Formulário Beta -->
+<section id="beta-form" class="py-20 bg-gradient-to-b from-[#0a0d12] to-[#0b0e14] flex flex-col items-center relative overflow-hidden">
+    
+    <!-- Efeitos de fundo animados -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500/30 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-pink-500/20 rounded-full blur-[120px] animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+
+    <div class="max-w-4xl w-full px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Cabeçalho com Badge -->
+        <div class="text-center mb-12 space-y-4">
+            <!-- Badge de destaque -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full mb-4 animate-fade-in">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                </span>
+                <span class="text-purple-300 text-sm font-medium">Vagas Limitadas</span>
+            </div>
+
+            <!-- Título principal -->
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                Faça parte da 
+                <span class="relative inline-block">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600 animate-gradient">
+                        Revolução Beta
+                    </span>
+                    <span class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 to-pink-500 blur-sm"></span>
+                </span>
+            </h2>
+
+            <!-- Subtítulo -->
+            <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
+                Responda abaixo para garantir sua vaga e receber acesso prioritário à <strong class="text-purple-400">BetNet</strong>.
+            </p>
+
+            <!-- Stats de confiança -->
+            <div class="flex flex-wrap items-center justify-center gap-6 pt-4">
+                <div class="flex items-center gap-2 text-sm text-gray-400">
+                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span><strong class="text-white">500+</strong> Inscritos</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-400">
+                    <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    </svg>
+                    <span>Resposta em <strong class="text-white">24h</strong></span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-400">
+                    <svg class="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <span><strong class="text-white">100%</strong> Seguro</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container do formulário com efeitos -->
+        <div class="relative group">
+            <!-- Brilho ao redor animado -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 rounded-3xl opacity-20 group-hover:opacity-40 blur-xl transition-all duration-500 animate-pulse-slow"></div>
+            
+            <!-- Card do formulário -->
+            <div class="relative bg-[#0f1419]/80 backdrop-blur-xl border border-gray-800/50 rounded-3xl overflow-hidden shadow-2xl">
+                
+                <!-- Barra superior estilo navegador -->
+                <div class="bg-gradient-to-r from-[#161b22] to-[#1a1f26] p-4 border-b border-gray-800/50 flex items-center justify-between">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50 hover:scale-110 transition-transform cursor-pointer"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50 hover:scale-110 transition-transform cursor-pointer"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/50 hover:scale-110 transition-transform cursor-pointer"></div>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-2 text-gray-500 text-xs">
+                        <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Conexão Segura</span>
+                    </div>
+                </div>
+
+                <!-- Iframe do Google Forms -->
+                <div class="relative">
+                    <!-- Loading overlay -->
+                    <div class="absolute inset-0 bg-gray-900 flex items-center justify-center z-10 pointer-events-none opacity-0 transition-opacity" id="form-loader">
+                        <div class="text-center">
+                            <div class="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-4"></div>
+                            <p class="text-gray-400 text-sm">Carregando formulário...</p>
+                        </div>
+                    </div>
+
+                    <iframe 
+                        src="https://docs.google.com/forms/d/e/1FAIpQLScES6edmJfrx3KeOmK-bRIWH-V1ipmWCwdlDHbZ5HyY6ueN9A/viewform?embedded=true" 
+                        width="100%" 
+                        height="1200" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0"
+                        class="bg-white"
+                        title="Formulário de Cadastro Beta - BetNet"
+                        loading="lazy"
+                        onload="document.getElementById('form-loader').style.display='none'">
+                        Carregando formulário…
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé informativo -->
+        <div class="mt-12 text-center space-y-6">
+            <!-- Mensagem de segurança -->
+            <div class="flex items-center justify-center gap-3 text-gray-500">
+                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <p class="text-sm sm:text-base">
+                    Seus dados estão <strong class="text-white">100% protegidos</strong> e criptografados
+                </p>
+            </div>
+
+            <!-- Badges de confiança -->
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <div class="flex items-center gap-2 px-4 py-2 bg-gray-800/40 backdrop-blur-sm rounded-full border border-gray-700/30 hover:border-purple-500/30 transition-colors">
+                    <span class="text-xl">🔒</span>
+                    <span class="text-xs text-gray-400">SSL Seguro</span>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 bg-gray-800/40 backdrop-blur-sm rounded-full border border-gray-700/30 hover:border-purple-500/30 transition-colors">
+                    <span class="text-xl">🛡️</span>
+                    <span class="text-xs text-gray-400">LGPD</span>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 bg-gray-800/40 backdrop-blur-sm rounded-full border border-gray-700/30 hover:border-purple-500/30 transition-colors">
+                    <span class="text-xl">⚡</span>
+                    <span class="text-xs text-gray-400">Acesso Imediato</span>
+                </div>
+            </div>
+
+            <!-- Nota final -->
+            <p class="text-gray-600 text-sm italic max-w-md mx-auto">
+                💜 Ao enviar, você entra automaticamente na fila prioritária da <strong class="text-purple-400">BetNet</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="relative py-16 bg-gradient-to-b from-[#0b0e14] to-[#08090c] border-t border-gray-900/50 overflow-hidden">
+    
+    <!-- Efeito de grade no fundo -->
+    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px); background-size: 50px 50px;"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        
+        <!-- Grid de conteúdo -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            
+            <!-- Coluna 1: Branding -->
+            <div class="text-center md:text-left space-y-4">
+                <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+                    BetNet
+                </h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Sua camada de proteção digital contra sites de apostas e conteúdo nocivo.
+                </p>
+            </div>
+
+            <!-- Coluna 2: Links -->
+            <div class="text-center space-y-3">
+                <h4 class="text-white font-semibold mb-4">Links Úteis</h4>
+                <div class="space-y-2">
+                    <a href="#features" class="block text-gray-400 hover:text-purple-400 transition-colors text-sm">Funcionalidades</a>
+                    <a href="#how-it-works" class="block text-gray-400 hover:text-purple-400 transition-colors text-sm">Como Funciona</a>
+                    <a href="#beta-form" class="block text-gray-400 hover:text-purple-400 transition-colors text-sm">Cadastro Beta</a>
+                </div>
+            </div>
+
+            <!-- Coluna 3: Suporte -->
+            <div class="text-center md:text-right space-y-3">
+                <h4 class="text-white font-semibold mb-4">Suporte</h4>
+                <div class="space-y-2 text-sm">
+                    <a href="mailto:contato@betnet.com" class="block text-gray-400 hover:text-purple-400 transition-colors">
+                        contato@betnet.com
+                    </a>
+                    <p class="text-gray-500">Resposta em até 24h</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-gray-800/50 mb-8"></div>
+
+        <!-- Copyright e botão voltar ao topo -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <p class="text-gray-500 text-sm">
+                <span class="inline-block mr-2">🛡️</span>
+                BetNet © 2024 - Proteção contra algoritmos abusivos.
+            </p>
+            
+            <button 
+                onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                class="group flex items-center gap-2 px-6 py-3 rounded-xl border border-purple-500/50 text-purple-400 hover:bg-purple-500/10 hover:border-purple-400 transition-all text-sm font-medium shadow-lg shadow-purple-500/10 hover:shadow-purple-500/30">
+                <span>Voltar ao Topo</span>
+                <svg class="w-4 h-4 transform group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
