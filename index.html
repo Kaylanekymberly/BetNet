@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-   <link rel="manifest" href="webmanifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proteção digital contra sites de apostas">
+    <meta name="theme-color" content="#a855f7">
     <title>BetNet - Proteção Digital Contra Apostas Online</title>
+    
+    <!-- PWA Manifest -->
+   <link rel="manifest" href="webmanifest.json">
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('✅ Service Worker registrado!', reg.scope))
+            .catch(err => console.error('❌ Erro no registro do SW:', err));
+        });
+      }
+    </script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -54,48 +68,41 @@
         }
     </style>
 </head>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
-  }
-</script>
 <body class="bg-[#0b0e14] text-white">
 
-<!-- Seção 1: CTA Hero (SEM BOTÃO - REMOVIDO) -->
+<!-- Seção 1: CTA Hero -->
 <section class="py-20 bg-[#1a1f2e] flex items-center justify-center">
     <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div id="downloadModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-    <div class="bg-gray-900 border border-purple-500 p-8 rounded-2xl max-w-md w-full shadow-2xl">
-        <h3 class="text-2xl font-bold text-white mb-4">✅ Baixou com sucesso!</h3>
-        <a href="betnet-extensao.zip" 
-   download="betnet-extensao.zip" 
-   onclick="document.getElementById('downloadModal').classList.remove('hidden')"
-   class="suas-classes-de-estilo-aqui">
-   Ativar Proteção Total (Baixar Extensão)
-</a>
-        <p class="text-gray-300 mb-6">Agora siga estes passos para ativar sua proteção no Chrome:</p>
         
-        <ol class="text-left text-gray-300 space-y-4 mb-8">
-            <li>1️⃣ Vá em <code class="bg-black px-2 py-1 rounded text-pink-400">chrome://extensions</code></li>
-            <li>2️⃣ Ative o <strong>"Modo do Desenvolvedor"</strong> no canto superior direito.</li>
-            <li>3️⃣ Arraste o arquivo <span class="text-purple-400">betnet-extensao.zip</span> para dentro da página.</li>
-        </ol>
+        <!-- Modal de Download -->
+        <div id="downloadModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+            <div class="bg-gray-900 border border-purple-500 p-8 rounded-2xl max-w-md w-full shadow-2xl">
+                <h3 class="text-2xl font-bold text-white mb-4">✅ Baixou com sucesso!</h3>
+                <p class="text-gray-300 mb-6">Agora siga estes passos para ativar sua proteção no Chrome:</p>
+                
+                <ol class="text-left text-gray-300 space-y-4 mb-8">
+                    <li>1️⃣ Vá em <code class="bg-black px-2 py-1 rounded text-pink-400">chrome://extensions</code></li>
+                    <li>2️⃣ Ative o <strong>"Modo do Desenvolvedor"</strong> no canto superior direito.</li>
+                    <li>3️⃣ Arraste o arquivo <span class="text-purple-400">betnet-extensao.zip</span> para dentro da página.</li>
+                </ol>
 
-        <button onclick="document.getElementById('downloadModal').classList.add('hidden')" 
-                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-3 rounded-xl font-bold text-white">
-            Entendi, vamos lá!
-        </button>
-    </div>
-</div>
+                <button onclick="document.getElementById('downloadModal').classList.add('hidden')" 
+                        class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-3 rounded-xl font-bold text-white hover:opacity-90 transition-opacity">
+                    Entendi, vamos lá!
+                </button>
+            </div>
+        </div>
+        
         <!-- Texto à esquerda -->
         <div class="space-y-6">
             <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
                 Quero convidar você a moldar o futuro da nossa proteção digital.
             </h2> 
         
-<p class="text-sm text-gray-400 mt-4">
-    📱 <strong>Usuário Mobile?</strong> Para instalar, clique nos três pontinhos do seu navegador e selecione "Instalar aplicativo" ou "Adicionar à tela de início".
-</p>
+            <p class="text-sm text-gray-400 mt-4">
+                📱 <strong>Usuário Mobile?</strong> Para instalar, clique nos três pontinhos do seu navegador e selecione "Instalar aplicativo" ou "Adicionar à tela de início".
+            </p>
+            
             <ul class="space-y-4 text-lg text-gray-300">
                 <li class="flex items-start gap-3">
                     <span class="text-purple-400 text-xl flex-shrink-0">•</span>
@@ -107,10 +114,14 @@
                 </li>
             </ul>
 
-            <!-- BOTÃO ÚNICO: Link direto para Google Forms -->
-            <a href="betnet-extensao.zip" download="betnet-extensao.zip" class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block">
-   Ativar Proteção Total (Baixar Extensão)
-</a>
+            <!-- BOTÃO: Download da extensão -->
+            <a href="betnet-extensao.zip" 
+               download="betnet-extensao.zip" 
+               onclick="document.getElementById('downloadModal').classList.remove('hidden'); return true;"
+               class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block">
+                Ativar Proteção Total (Baixar Extensão)
+            </a>
+        </div>
 
         <!-- Mockup à direita -->
         <div class="flex justify-center lg:justify-end">
@@ -136,7 +147,7 @@
     </div>
 </section>
 
-<!-- Seção 2: Onde o governo se abstém (SEM BOTÃO E SEM MOCKUP - REMOVIDOS) -->
+<!-- Seção 2: Onde o governo se abstém -->
 <section class="py-20 bg-[#1a1f2e] flex items-center justify-center">
     <div class="max-w-6xl mx-auto px-6 text-center">
         

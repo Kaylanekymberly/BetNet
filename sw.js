@@ -1,7 +1,25 @@
 const CACHE_NAME = 'betnet-v1';
-self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['/', '/index.html'])));
+const urlsToCache = [
+  '/',
+  'index.html',
+  'webmanifest.json'
+];
+
+// Instalação
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('Arquivos em cache!');
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
-self.addEventListener('fetch', (e) => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+
+// Interceptar requisições (permite funcionar offline)
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
 });
