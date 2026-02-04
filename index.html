@@ -6,8 +6,7 @@
     <meta name="description" content="Proteção digital contra sites de apostas">
     <meta name="theme-color" content="#a855f7">
     <title>BetNet - Proteção Digital Contra Apostas Online</title>
-    
-    <!-- PWA Manifest -->
+        <!-- PWA Manifest -->
    <link rel="manifest" href="webmanifest.json">
     <!-- Service Worker Registration -->
     <script>
@@ -69,7 +68,22 @@
     </style>
 </head>
 <body class="bg-[#0b0e14] text-white">
-
+<script>
+  // Detecta se o dispositivo é mobile (Celular ou Tablet)
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      // Procura o botão que baixa o .zip
+      const btnExtensao = document.querySelector('a[href="betnet-extensao.zip"]');
+      
+      if (btnExtensao) {
+          btnExtensao.addEventListener('click', (e) => {
+              e.preventDefault(); // Cancela o download do .zip no celular
+              
+              // Mostra um aviso amigável
+              alert("⚠️ A Extensão de Proteção Total funciona apenas no Computador.\n\nNo celular, use este site como um Aplicativo instalando-o pelo menu do seu navegador (três pontinhos > Instalar)!");
+          });
+      }
+  }
+</script>
 <!-- Seção 1: CTA Hero -->
 <section class="py-20 bg-[#1a1f2e] flex items-center justify-center">
     <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
