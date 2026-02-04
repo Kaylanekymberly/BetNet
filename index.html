@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+   <link rel="manifest" href="webmanifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BetNet - Proteção Digital Contra Apostas Online</title>
@@ -53,6 +54,12 @@
         }
     </style>
 </head>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log("BetNet App pronto!"));
+  }
+</script>
 <body class="bg-[#0b0e14] text-white">
 
 <!-- Seção 1: CTA Hero (SEM BOTÃO - REMOVIDO) -->
