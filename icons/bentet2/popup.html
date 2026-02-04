@@ -15,3 +15,67 @@
   <p>Limpando anúncios de jogos e links de apostas do seu navegador.</p>
 </body>
 </html>
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  loadStats();
+  setupEventListeners();
+});
+
+// Carregar estatísticas
+function loadStats() {
+  chrome.storage.local.get(['blockedSites', 'blockedVideos'], (result) => {
+    document.getElementById('blockedSites').textContent = result.blockedSites || 0;
+    document.getElementById('blockedVideos').textContent = result.blockedVideos || 0;
+  });
+
+  // Carregar preferências
+  chrome.storage.local.get(['blockYoutube'], (result) => {
+    document.getElementById('blockYoutube').checked = result.blockYoutube !== false;
+  });
+}
+
+// Configurar event listeners
+function setupEventListeners() {
+  // Toggle de bloqueio do YouTube
+  document.getElementById('blockYoutube').addEventListener('change', (e) => {
+    chrome.storage.local.set({ blockYoutube: e.target.checked });
+  });
+
+  // Ver sites bloqueados
+  document.getElementById('viewBlocked').addEventListener('click', () => {
+    chrome.tabs.create({ url: 'blocked-list.html' });
+  });
+
+  // Resetar estatísticas
+  document.getElementById('resetStats').addEventListener('click', () => {
+    if (confirm('Deseja resetar as estatísticas?')) {
+      chrome.storage.local.set({ 
+        blockedSites: 0, 
+        blockedVideos: 0 
+      }, () => {
+        loadStats();
+      });
+    }
+  });
+
+  // Reportar bug
+  document.getElementById('reportBug').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Para reportar bugs, por favor envie um email para: suporte@escudodigital.com');
+  });
+
+  // Adicionar site customizado
+  document.getElementById('addSite').addEventListener('click', (e) => {
+    e.preventDefault();
+    const site = prompt('Digite o domínio do site que deseja bloquear:\n(exemplo: exemplo.com)');
+    if (site) {
+      chrome.storage.local.get(['customSites'], (result) => {
+        const customSites = result.customSites || [];
+        customSites.push(site);
+        chrome.storage.local.set({ customSites }, () => {
+          alert(`Site "${site}" adicionado à lista de bloqueio!`);
+        });
+      });
+    }
+  });
+}

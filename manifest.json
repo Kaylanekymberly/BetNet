@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Escudo Digital",
+  "version": "1.1.0",
+  "description": "Proteção inteligente contra sites de apostas e conteúdo relacionado",
+  "permissions": [
+    "declarativeNetRequest",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "192": "icons/icon-192.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "192": "icons/icon-192.png",
+    "512": "icons/icon-512.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html", "privacy-policy.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
