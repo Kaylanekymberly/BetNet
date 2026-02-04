@@ -56,8 +56,7 @@
 </head>
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log("BetNet App pronto!"));
+    navigator.serviceWorker.register('./sw.js');
   }
 </script>
 <body class="bg-[#0b0e14] text-white">
