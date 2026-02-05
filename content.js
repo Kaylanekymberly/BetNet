@@ -4,24 +4,48 @@
 // ========================================
 
 // ========================================
+// BLOQUEIO GLOBAL DE CAPTURA 🔥
+// Intercepta cliques ANTES do YouTube processar
+// ========================================
+
+document.addEventListener('click', (e) => {
+  // Busca o link que o usuário tentou clicar
+  const link = e.target.closest("a[href*='youtube.com/watch'], a[href*='/shorts/']");
+  if (!link) return;
+
+  // Busca o renderer (container do vídeo)
+  const renderer = link.closest(
+    'ytd-video-renderer, ytd-grid-video-renderer, ytd-rich-item-renderer, ytd-reel-item-renderer, ytd-compact-video-renderer'
+  );
+
+  // Se o vídeo está marcado como bloqueado, MATA o clique
+  if (renderer && renderer.dataset.blocked === 'true') {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    console.log('🛡️ Clique BLOQUEADO no capture global');
+    return false;
+  }
+}, true); // 🔥 CAPTURE: true = pega o evento ANTES de qualquer outro listener
+
+// ========================================
 // CONSTANTES DE CONFIGURAÇÃO
 // ========================================
 
 const CONFIG = {
   // Estilos do bloqueio
   CARD: {
-    SIZE: '200px', // Um único valor para garantir quadrado perfeito
-    BG_COLOR: 'linear-gradient(135deg, #1e1b2e 0%, #2a2440 100%)',
-    BORDER_COLOR: '#8b5cf6',
-    BORDER_WIDTH: '3px',
-    BORDER_RADIUS: '20px',
-    SHADOW: '0 0 40px rgba(139, 92, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.3)'
+    SIZE: '150px', // Tamanho fixo do card
+    BG_COLOR: '#1a1a2e',
+    BORDER_COLOR: '#a855f7',
+    BORDER_WIDTH: '2px',
+    BORDER_RADIUS: '15px',
+    SHADOW: '0 0 20px rgba(168, 85, 247, 0.4)'
   },
   
   // Estilos do backdrop
   BACKDROP: {
     BG_COLOR: 'rgba(0, 0, 0, 0.95)',
-    BLUR: '8px',
     Z_INDEX: 999998
   },
   
@@ -218,34 +242,34 @@ function containsBettingKeywords(text) {
 
 /**
  * Cria o HTML interno do card de bloqueio
- * Sem padding externo - tudo centralizado via flex
+ * Otimizado para 150x150px
  * @returns {string} - HTML do conteúdo
  */
 function createBlockMessageHTML() {
   return `
-    <div style="text-align: center;">
+    <div style="text-align: center; padding: 10px;">
       <!-- Shield Icon -->
-      <svg width="50" height="50" viewBox="0 0 24 24" style="margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.6));">
+      <svg width="40" height="40" viewBox="0 0 24 24" style="margin-bottom: 8px; filter: drop-shadow(0 0 8px ${CONFIG.SHIELD.GLOW});">
         <defs>
           <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:${CONFIG.SHIELD.GRADIENT_START};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${CONFIG.SHIELD.GRADIENT_END};stop-opacity:1" />
           </linearGradient>
         </defs>
         <path fill="url(#shieldGradient)" d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91c4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
       </svg>
       
-      <div style="font-size: 18px; font-weight: 600; color: #a855f7; margin-bottom: 5px;">
-        Bloqueado
+      <div style="font-size: 14px; font-weight: 600; color: ${CONFIG.CARD.BORDER_COLOR}; margin-bottom: 4px; line-height: 1.2;">
+        ${CONFIG.MESSAGES.TITLE}
       </div>
       
-      <div style="font-size: 11px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">
-        Conteúdo de apostas
+      <div style="font-size: 9px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px; line-height: 1.2;">
+        ${CONFIG.MESSAGES.SUBTITLE}
       </div>
       
-      <div style="font-size: 9px; padding: 4px 8px; background: rgba(168, 85, 247, 0.2); 
+      <div style="font-size: 8px; padding: 3px 8px; background: rgba(168, 85, 247, 0.2); 
                   border-radius: 4px; color: rgba(255, 255, 255, 0.6); display: inline-block;">
-        Escudo Digital
+        ${CONFIG.MESSAGES.BADGE}
       </div>
     </div>
   `;
@@ -264,11 +288,11 @@ function createBackdrop() {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background: rgba(0, 0, 0, 0.95) !important;
+    background: ${CONFIG.BACKDROP.BG_COLOR} !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 999998 !important;
+    z-index: ${CONFIG.Z_INDEX.BACKDROP} !important;
     pointer-events: auto !important;
   `;
   
@@ -282,26 +306,45 @@ function createBackdrop() {
 
 /**
  * Cria o elemento overlay (card quadrado centralizado)
- * TAMANHO FIXO 200x200px com travas para não encolher
+ * ✅ CORREÇÃO APLICADA: Adiciona max-width e max-height para travar o tamanho
+ * ✅ CORREÇÃO APLICADA: Adiciona flex-shrink: 0 para evitar compressão
+ * ✅ CORREÇÃO APLICADA: Adiciona margin: auto para centralização perfeita
  * @returns {HTMLElement} - Elemento overlay
  */
 function createOverlay() {
   const overlay = document.createElement('div');
   overlay.className = 'escudo-digital-block';
+  
+  // Aplicando as configurações do CONFIG
   overlay.style.cssText = `
-    width: 200px !important;
-    height: 200px !important;
-    min-width: 200px !important;
-    min-height: 200px !important;
-    background: #1a1a2e !important;
-    border: 3px solid #a855f7 !important;
-    border-radius: 20px !important;
+    /* TRAVAS DE TAMANHO - Evita esticamento */
+    width: ${CONFIG.CARD.SIZE} !important;
+    height: ${CONFIG.CARD.SIZE} !important;
+    min-width: ${CONFIG.CARD.SIZE} !important;
+    min-height: ${CONFIG.CARD.SIZE} !important;
+    max-width: ${CONFIG.CARD.SIZE} !important;
+    max-height: ${CONFIG.CARD.SIZE} !important;
+    flex-shrink: 0 !important;
+    margin: auto !important;
+    
+    /* LAYOUT */
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.6) !important;
-    z-index: 999999 !important;
+    position: relative !important;
+    
+    /* ESTILO VISUAL */
+    background: ${CONFIG.CARD.BG_COLOR} !important;
+    border: ${CONFIG.CARD.BORDER_WIDTH} solid ${CONFIG.CARD.BORDER_COLOR} !important;
+    border-radius: ${CONFIG.CARD.BORDER_RADIUS} !important;
+    box-shadow: ${CONFIG.CARD.SHADOW} !important;
+    
+    /* Z-INDEX */
+    z-index: ${CONFIG.Z_INDEX.OVERLAY} !important;
+    
+    /* OVERFLOW */
+    overflow: hidden !important;
   `;
   
   overlay.innerHTML = createBlockMessageHTML();
@@ -309,85 +352,79 @@ function createOverlay() {
   return overlay;
 }
 
-/**
- * Remove e bloqueia interações com links no elemento
- * @param {HTMLElement} element - Elemento pai
- */
-function disableElementInteractions(element) {
-  // Bloquear todos os links
-  const links = element.querySelectorAll('a');
-  links.forEach(link => {
-    link.removeAttribute('href');
-    link.style.pointerEvents = 'none';
-    link.onclick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    };
-  });
-  
-  // Bloquear cliques no elemento
-  element.onclick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  };
-  
-  element.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  }, true);
-}
-
 // ========================================
 // FUNÇÃO PRINCIPAL DE BLOQUEIO
 // ========================================
 
 /**
- * Bloqueia um elemento de vídeo com overlay
+ * 🛡️ BLOQUEIO REAL - SEM FIRULAS
+ * O overlay fica ACIMA do <a>, não dentro dele.
+ * Isso é o que BLOQUEIA DE VERDADE.
  * 
- * ESTRUTURA DE DUAS CAMADAS:
- * 1. BACKDROP (100% do vídeo) - Apenas fundo escuro, SEM borda
- * 2. CARD (220x220px fixo) - Com borda roxa, centralizado dentro do backdrop
- * 
- * Por que essa estrutura?
- * - O backdrop usa display:flex para centralizar o card
- * - O card tem dimensões FIXAS para não esticar
- * - A borda fica PRESA ao card de 220px, não corre para os lados
- * 
- * @param {HTMLElement} element - Elemento a ser bloqueado
+ * @param {HTMLElement} item - Elemento do vídeo (ytd-video-renderer, etc)
  */
-function blockElement(element) {
-  // Validações
-  if (!isValidElement(element)) return;
-  if (element.dataset.blocked) return; // Já bloqueado
-  
-  // Marcar como bloqueado
-  element.dataset.blocked = 'true';
-  element.style.position = 'relative';
-  element.style.overflow = 'hidden';
-  
-  // CAMADA 1: Backdrop (fundo escuro 100% - sem borda)
-  const backdrop = createBackdrop();
-  
-  // CAMADA 2: Card quadrado (220x220px - COM borda roxa)
-  const overlay = createOverlay();
-  
-  // MONTAGEM: Card vai DENTRO do backdrop
-  // O backdrop centraliza automaticamente via flex
-  backdrop.appendChild(overlay);
-  element.appendChild(backdrop);
-  
-  // Desabilitar interações
-  element.style.pointerEvents = 'none';
-  backdrop.style.pointerEvents = 'auto';
-  disableElementInteractions(element);
-  
-  // Notificar background script
+function blockElement(item) {
+  if (!item || item.dataset.blocked) return;
+  item.dataset.blocked = 'true';
+
+  // O LINK REAL (onde o clique acontece)
+  const link = item.querySelector('a#thumbnail');
+  if (!link) return;
+
+  // Container EXTERNO do link (o overlay vai ser IRMÃO do link)
+  const wrapper = link.parentElement;
+  wrapper.style.position = 'relative';
+
+  // O BLOCKER (overlay que fica ACIMA do link)
+  const blocker = document.createElement('div');
+  blocker.className = 'shieldnet-blocker';
+  blocker.style.cssText = `
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(6px);
+    z-index: 99999;
+    pointer-events: auto;
+    cursor: not-allowed;
+  `;
+
+  // CANCELA O CLIQUE
+  blocker.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  // VISUAL DO BLOQUEIO
+  blocker.innerHTML = `
+    <div style="
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+    ">
+      <div style="
+        border: 2px solid #a855f7;
+        border-radius: 14px;
+        padding: 16px 20px;
+        background: rgba(26, 26, 46, 0.95);
+        text-align: center;
+      ">
+        <div style="font-size: 24px; margin-bottom: 4px;">🛡️</div>
+        <strong style="font-size: 16px;">Bloqueado</strong><br>
+        <span style="font-size: 13px; opacity: 0.8;">Conteúdo de apostas</span>
+      </div>
+    </div>
+  `;
+
+  // INSERE COMO IRMÃO DO LINK (não como filho!)
+  wrapper.appendChild(blocker);
+
+  // Notificar
   notifyBackgroundScript('videoBlocked');
-  
-  console.log('Escudo Digital: Elemento bloqueado');
+  console.log('🛡️ Bloqueado:', item);
 }
 
 /**
@@ -475,8 +512,10 @@ function checkRegularVideos() {
 
 /**
  * Verifica e bloqueia Shorts do YouTube
+ * 🎯 BUSCA REFINADA: Foca nos containers de shorts E nos players internos
  */
 function checkShorts() {
+  // Buscar containers de shorts
   const shorts = document.querySelectorAll(`
     ytd-reel-item-renderer,
     ytd-reel-video-renderer, 
@@ -487,7 +526,8 @@ function checkShorts() {
     [is-shorts] ytd-reel-item-renderer,
     yt-shorts-video-renderer,
     #player-shorts-container,
-    .shorts-player
+    .shorts-player,
+    #shorts-player
   `.trim());
   
   shorts.forEach(short => {
@@ -525,14 +565,56 @@ function checkCurrentVideo() {
     const player = document.querySelector('#movie_player, .html5-video-player');
     
     if (player && !player.dataset.blocked) {
-      blockElement(player);
+      player.dataset.blocked = 'true';
+      player.style.position = 'relative';
+
+      // BLOCKER para o player aberto
+      const blocker = document.createElement('div');
+      blocker.className = 'shieldnet-player-blocker';
+      blocker.style.cssText = `
+        position: absolute;
+        inset: 0;
+        background: black;
+        z-index: 99999;
+        pointer-events: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      `;
+
+      blocker.innerHTML = `
+        <div style="
+          color: white;
+          font-family: system-ui, -apple-system, sans-serif;
+          text-align: center;
+        ">
+          <div style="
+            border: 2px solid #a855f7;
+            border-radius: 16px;
+            padding: 24px 32px;
+            background: rgba(26, 26, 46, 0.95);
+          ">
+            <div style="font-size: 48px; margin-bottom: 12px;">🛡️</div>
+            <strong style="font-size: 24px; display: block; margin-bottom: 8px;">Conteúdo Bloqueado</strong>
+            <span style="font-size: 16px; opacity: 0.8;">Este vídeo contém conteúdo relacionado a apostas</span>
+          </div>
+        </div>
+      `;
+
+      player.appendChild(blocker);
       
-      // Pausar o vídeo
-      const video = document.querySelector('video');
+      // 🔥 MATAR O VÍDEO COMPLETAMENTE
+      const video = player.querySelector('video');
       if (video) {
         video.pause();
-        video.style.display = 'none';
+        video.currentTime = 0;
+        video.muted = true;
+        video.src = ''; // 🔥 Limpa a source
+        video.load();   // 🔥 Força reload vazio (impede autoplay/preload)
       }
+
+      notifyBackgroundScript('videoBlocked');
+      console.log('🛡️ Player bloqueado e vídeo morto');
     }
   }
 }
@@ -578,31 +660,45 @@ function blockBettingSite() {
 
 /**
  * Inicializa o monitoramento do YouTube
+ * ✅ Proteção contra interval duplicado
  */
+let youtubeInterval = null;
+let youtubeObserver = null;
+
 function initializeYouTube() {
+  // Evitar inicialização duplicada
+  if (youtubeInterval) {
+    console.log('🛡️ Escudo Digital já está ativo no YouTube');
+    return;
+  }
+
   // Verificação inicial
   checkAndBlockYouTubeVideos();
   
-  // Observar mudanças na página
-  const observer = new MutationObserver(() => {
-    checkAndBlockYouTubeVideos();
-  });
-  
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+  // Observar mudanças na página (para SPA do YouTube)
+  if (!youtubeObserver) {
+    youtubeObserver = new MutationObserver(() => {
+      checkAndBlockYouTubeVideos();
+    });
+    
+    youtubeObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
   
   // Verificação periódica (para conteúdo dinâmico)
-  setInterval(checkAndBlockYouTubeVideos, CONFIG.CHECK_INTERVAL_MS);
+  youtubeInterval = setInterval(checkAndBlockYouTubeVideos, CONFIG.CHECK_INTERVAL_MS);
   
-  console.log('Escudo Digital ativo no YouTube! 🛡️');
+  console.log('🛡️ Escudo Digital ativo no YouTube!');
 }
 
 /**
  * Ponto de entrada principal
  */
 function initialize() {
+  console.log('🛡️ Escudo Digital iniciando...');
+  
   if (window.location.hostname.includes('youtube.com')) {
     initializeYouTube();
   } else {
@@ -610,5 +706,83 @@ function initialize() {
   }
 }
 
-// Iniciar a extensão
-initialize();
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
+
+// Aguardar o DOM estar pronto antes de iniciar
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initialize);
+} else {
+  // DOM já está pronto
+  initialize();
+}
+// content.js - VERSÃO FINAL (SEM FIRULAS)
+
+const KEYWORDS = [
+  'podcast', 'cortes', 'flow', 'podpah', 'inteligência', 
+  'venus', 'lindomar', 'debate', 'react', 'reagindo'
+];
+
+// 🎯 FUNÇÃO DE VERIFICAÇÃO (RÁPIDA E DIRETA)
+function shouldBlock(text) {
+  if (!text) return false;
+  const lower = text.toLowerCase();
+  return KEYWORDS.some(kw => lower.includes(kw));
+}
+
+// 🔥 MARCAR ELEMENTOS BLOQUEADOS
+function markBlockedVideos() {
+  const selectors = [
+    'ytd-video-renderer',
+    'ytd-grid-video-renderer', 
+    'ytd-rich-item-renderer',
+    'ytd-reel-item-renderer'
+  ];
+
+  selectors.forEach(selector => {
+    document.querySelectorAll(`${selector}:not([data-checked])`).forEach(item => {
+      item.dataset.checked = 'true';
+      
+      const title = item.querySelector('#video-title, h3, .title')?.textContent || '';
+      const channel = item.querySelector('#channel-name, .ytd-channel-name')?.textContent || '';
+      
+      if (shouldBlock(title) || shouldBlock(channel)) {
+        item.dataset.blocked = 'true';
+        item.style.opacity = '0.3';
+        item.style.pointerEvents = 'none';
+        console.log('🛡️ Bloqueado:', { title, channel });
+      }
+    });
+  });
+}
+
+// 🔥 KILLER DE EVENTOS (ANTES DO CLICK)
+const KILL_EVENTS = (e) => {
+  const link = e.target.closest("a[href]");
+  if (!link) return;
+
+  const renderer = link.closest(
+    'ytd-video-renderer, ytd-grid-video-renderer, ytd-rich-item-renderer, ytd-reel-item-renderer'
+  );
+
+  if (renderer?.dataset.blocked === 'true') {
+    console.warn('🛡️ BLOQUEIO REAL ATIVADO');
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    return false;
+  }
+};
+
+//  REGISTRAR NOS EVENTOS CERTOS
+['pointerdown', 'mousedown', 'touchstart'].forEach(evt => {
+  document.addEventListener(evt, KILL_EVENTS, true);
+});
+
+//  OBSERVAR MUDANÇAS
+const observer = new MutationObserver(() => markBlockedVideos());
+observer.observe(document.body, { childList: true, subtree: true });
+
+//  EXECUÇÃO INICIAL
+markBlockedVideos();
