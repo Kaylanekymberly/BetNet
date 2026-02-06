@@ -1,4 +1,4 @@
-# 🗺️ BetNet - Roadmap de Desenvolvimento Estratégico 2026
+#  BetNet - Roadmap de Desenvolvimento Estratégico 2026
 
 **Transição de Bloqueador Reativo para Sistema de Proteção Proativo**
 
@@ -6,13 +6,13 @@ Este documento apresenta a evolução do BetNet através de **quatro horizontes 
 
 ---
 
-## 🎯 Visão Estratégica
+##  Visão Estratégica
 
 O BetNet está em processo de transformação de uma extensão de bloqueio simples para um **ecossistema inteligente de proteção financeira digital** baseado em Psicologia Reversa das Finanças. 
 
 Nosso objetivo não é apenas bloquear conteúdo, mas **criar consciência financeira ativa** no momento exato em que o usuário está vulnerável.
 
-### 📊 Níveis de Maturidade
+###  Níveis de Maturidade
 
 ```
 Nível 1: Bloqueador Reativo (ATUAL)
@@ -30,24 +30,24 @@ Nível 4: Sistema Autônomo de Saúde Financeira (Q4 2026)
 
 ---
 
-## 📊 Status Atual (v1.1.0)
+##  Status Atual (v1.1.0)
 
-### ✅ Funcionalidades Implementadas
+###  Funcionalidades Implementadas
 
 | Funcionalidade | Status | Plataforma |
 |----------------|--------|------------|
-| Bloqueio de vídeos no YouTube | ✅ Completo | YouTube Web |
-| Detecção de palavras-chave | ✅ Completo | YouTube Web |
-| Bloqueio de sites de apostas | ✅ Completo | Chrome |
-| Overlay de proteção visual | ✅ Completo | YouTube Web |
-| Prevenção de cliques | ✅ Completo | YouTube Web |
-| Suporte para Shorts | ✅ Completo | YouTube Web |
-| Background service worker | ✅ Completo | Chrome |
-| Estatísticas básicas | ✅ Completo | Chrome |
+| Bloqueio de vídeos no YouTube |  Completo | YouTube Web |
+| Detecção de palavras-chave |  Completo | YouTube Web |
+| Bloqueio de sites de apostas |  Completo | Chrome |
+| Overlay de proteção visual |  Completo | YouTube Web |
+| Prevenção de cliques |  Completo | YouTube Web |
+| Suporte para Shorts |  Completo | YouTube Web |
+| Background service worker |  Completo | Chrome |
+| Estatísticas básicas |  Completo | Chrome |
 
 ---
 
-## 🚀 Horizonte 1: Refinamento de Precisão & Core Engine
+##  Horizonte 1: Refinamento de Precisão & Core Engine
 **Período:** Q1 2026 (Jan - Mar)  
 **Status:** 🔄 Em Desenvolvimento  
 **Foco:** Estabilizar a base tecnológica e reduzir falsos positivos
@@ -55,10 +55,10 @@ Nível 4: Sistema Autônomo de Saúde Financeira (Q4 2026)
 ### Objetivo Estratégico
 Evoluir de um sistema de detecção por palavras-chave isoladas para um **motor de análise contextual** que compreende a intenção do conteúdo.
 
-### 🎯 Milestones
+###  Milestones
 
 #### Milestone 1.1: Heurística de Contexto
-**Prioridade:** 🔴 Crítica | **Complexidade:** Alta | **Status:** [ ] Planejado
+**Prioridade:**  Crítica | **Complexidade:** Alta | **Status:** [ ] Planejado
 
 **Problema Atual:**
 O sistema bloqueia vídeos baseado em palavras-chave isoladas, gerando falsos positivos em conteúdo educativo ou jornalístico que menciona apostas de forma crítica.
@@ -84,11 +84,11 @@ Exceções (Whitelist Automática):
 ```
 
 **Implementação Técnica:**
-- [ ] Criar sistema de scoring ponderado por categoria
-- [ ] Implementar análise de sentimento (positivo vs crítico)
-- [ ] Adicionar detecção de badges de verificação
-- [ ] Criar whitelist dinâmica com machine learning
-- [ ] Testes A/B com 1000 vídeos diversos
+-  Criar sistema de scoring ponderado por categoria
+-  Implementar análise de sentimento (positivo vs crítico)
+-  Adicionar detecção de badges de verificação
+-  Criar whitelist dinâmica com machine learning
+-  Testes A/B com 1000 vídeos diversos
 
 **Métricas de Sucesso:**
 - Taxa de falsos positivos < 2%
@@ -96,8 +96,8 @@ Exceções (Whitelist Automática):
 - Performance: < 50ms por vídeo analisado
 
 **Impacto Esperado:**
-↗️ 80% de redução em falsos positivos  
-↗️ 30% de aumento na confiança do usuário
+ 80% de redução em falsos positivos  
+ 30% de aumento na confiança do usuário
 
 ---
 
@@ -143,11 +143,11 @@ function processBatch(mutations) {
 ```
 
 **Tarefas:**
-- [ ] Implementar sistema de batching
-- [ ] Adicionar debouncing para eventos de scroll
-- [ ] Implementar Web Workers para processamento paralelo
-- [ ] Criar sistema de cache para vídeos já analisados
-- [ ] Benchmark de performance antes/depois
+-  Implementar sistema de batching
+-  Adicionar debouncing para eventos de scroll
+-  Implementar Web Workers para processamento paralelo
+-  Criar sistema de cache para vídeos já analisados
+-  Benchmark de performance antes/depois
 
 **Métricas de Sucesso:**
 - Uso de CPU reduzido em 60%
@@ -164,13 +164,13 @@ Criar banco de dados local de exceções inteligentes para canais educativos ou 
 
 **Casos de Uso:**
 ```
-✅ PERMITIR:
+ PERMITIR:
 - Canais de notícias falando sobre regulamentação
 - Documentários sobre vício em jogos
 - Vídeos de educação financeira mencionando riscos
 - Conteúdo de psicólogos sobre tratamento
 
-❌ BLOQUEAR:
+ BLOQUEAR:
 - Influenciadores promovendo plataformas
 - Tutoriais de "estratégias" de apostas
 - Lives de apostas ao vivo
@@ -178,11 +178,11 @@ Criar banco de dados local de exceções inteligentes para canais educativos ou 
 ```
 
 **Implementação:**
-- [ ] Sistema de votação comunitária para whitelist
-- [ ] API local para gerenciar exceções
-- [ ] UI no popup para adicionar/remover canais
-- [ ] Sincronização opcional via Chrome Storage Sync
-- [ ] Backup/export de configurações
+-  Sistema de votação comunitária para whitelist
+-  API local para gerenciar exceções
+-  UI no popup para adicionar/remover canais
+-  Sincronização opcional via Chrome Storage Sync
+-  Backup/export de configurações
 
 **Estrutura de Dados:**
 ```javascript
@@ -208,27 +208,27 @@ Criar banco de dados local de exceções inteligentes para canais educativos ou 
 
 ---
 
-### 📊 KPIs do Horizonte 1
+###  KPIs do Horizonte 1
 
 | Métrica | Baseline | Meta Q1 | Status |
 |---------|----------|---------|--------|
-| Taxa de Detecção | 85% | 95% | 🔄 |
-| Falsos Positivos | 8% | <2% | 🔄 |
-| Uso de CPU | 15% | <5% | 🔄 |
-| Uso de Memória | 45MB | <30MB | 🔄 |
-| Satisfação do Usuário | - | >4.5/5 | 🔄 |
+| Taxa de Detecção | 85% | 95% |  |
+| Falsos Positivos | 8% | <2% |  |
+| Uso de CPU | 15% | <5% |  |
+| Uso de Memória | 45MB | <30MB |  |
+| Satisfação do Usuário | - | >4.5/5 |  |
 
 ---
 
-## 🧠 Horizonte 2: Inteligência Visual & UX de Conscientização
+##  Horizonte 2: Inteligência Visual & UX de Conscientização
 **Período:** Q2 2026 (Abr - Jun)  
-**Status:** 📋 Planejado  
+**Status:**  Planejado  
 **Foco:** Bloqueio de estímulos gráficos e introdução da Psicologia Reversa
 
 ### Objetivo Estratégico
 Transformar bloqueio de texto em **bloqueio multimodal** (texto + imagem + áudio) e introduzir **micro-intervenções psicológicas** no momento de vulnerabilidade.
 
-### 🎯 Milestones
+###  Milestones
 
 #### Milestone 2.1: Módulo de Visão Computacional (Lite)
 **Prioridade:** 🔴 Crítica | **Complexidade:** Muito Alta | **Status:** [ ] Planejado
@@ -241,7 +241,7 @@ Integrar `TensorFlow.js` com modelo customizado treinado para identificar elemen
 
 **Elementos Detectados:**
 ```
-🎯 Alvos de Detecção Visual
+ Alvos de Detecção Visual
 ├── Logos de Casas de Apostas
 │   ├── Bet365, Betano, Pixbet, etc.
 │   └── Variações de design e cores
@@ -287,12 +287,12 @@ async function analyzeThumbnail(imageElement) {
 ```
 
 **Tarefas:**
-- [ ] Coletar dataset de 10k+ thumbnails (apostas vs não-apostas)
-- [ ] Treinar modelo CNN customizado no Google Colab
-- [ ] Converter para TensorFlow.js (< 5MB)
-- [ ] Implementar sistema de cache para thumbnails já analisadas
-- [ ] Fallback para OCR em caso de baixa confiança
-- [ ] Testes de performance (< 200ms por thumbnail)
+-  Coletar dataset de 10k+ thumbnails (apostas vs não-apostas)
+-  Treinar modelo CNN customizado no Google Colab
+-  Converter para TensorFlow.js (< 5MB)
+-  Implementar sistema de cache para thumbnails já analisadas
+-  Fallback para OCR em caso de baixa confiança
+-  Testes de performance (< 200ms por thumbnail)
 
 **Métricas de Sucesso:**
 - Precisão do modelo > 90%
@@ -301,8 +301,8 @@ async function analyzeThumbnail(imageElement) {
 - Tamanho do modelo < 5MB
 
 **Impacto Esperado:**
-↗️ 50% de aumento na taxa de detecção geral  
-↗️ Bloqueio de conteúdo "invisível" ao texto
+ 50% de aumento na taxa de detecção geral  
+ Bloqueio de conteúdo "invisível" ao texto
 
 ---
 
@@ -318,51 +318,51 @@ Transformar dados de bloqueio em **consciência financeira ativa** através de v
 ║  🛡️ BetNet - Seu Escudo Financeiro      ║
 ╠══════════════════════════════════════════╣
 ║                                          ║
-║  📊 Estatísticas de Hoje                 ║
+║   Estatísticas de Hoje                 ║
 ║  ├─ Gatilhos Bloqueados: 23             ║
 ║  ├─ Tempo Protegido: 1h 47min           ║
 ║  └─ Economia Estimada: R$ 127,50        ║
 ║                                          ║
-║  🔥 Streak Atual: 14 dias               ║
-║  🏆 Recorde: 28 dias                    ║
+║   Streak Atual: 14 dias               ║
+║   Recorde: 28 dias                    ║
 ║                                          ║
-║  📈 Evolução Semanal                    ║
+║   Evolução Semanal                    ║
 ║  [████████░░░░░░░] 67% menos exposição  ║
 ║                                          ║
-║  💰 Patrimônio Protegido Total          ║
+║   Patrimônio Protegido Total          ║
 ║  R$ 3.847,50 desde instalação          ║
 ║                                          ║
 ╚══════════════════════════════════════════╝
 ```
 
 **Funcionalidades:**
-- [ ] Gráficos interativos com Chart.js
-- [ ] Sistema de conquistas/badges
-- [ ] Comparativo temporal (dia/semana/mês)
-- [ ] Exportação de relatórios (PDF)
-- [ ] Widget de "dinheiro preservado"
-- [ ] Mensagens motivacionais personalizadas
+-  Gráficos interativos com Chart.js
+-  Sistema de conquistas/badges
+-  Comparativo temporal (dia/semana/mês)
+-  Exportação de relatórios (PDF)
+-  Widget de "dinheiro preservado"
+-  Mensagens motivacionais personalizadas
 
 **Gamificação Positiva:**
 ```javascript
 const achievements = {
   first_day: {
-    icon: "🌱",
+    icon: "",
     title: "Primeiro Passo",
     description: "Você ativou sua proteção"
   },
   week_streak: {
-    icon: "🔥",
+    icon: "",
     title: "Semana Forte",
     description: "7 dias protegido(a)"
   },
   hundred_blocks: {
-    icon: "💯",
+    icon: "",
     title: "Centurião",
     description: "100 bloqueios realizados"
   },
   saved_thousand: {
-    icon: "💎",
+    icon: "",
     title: "Tesouro Preservado",
     description: "R$ 1.000+ protegidos"
   }
@@ -384,9 +384,9 @@ const nudges = {
   video_blocked: {
     trigger: "Vídeo de aposta bloqueado",
     messages: [
-      "🛡️ Sua mente agradece. Você merece proteção.",
-      "💜 Cada 'não' é um investimento em paz de espírito.",
-      "🌟 Você está construindo um futuro mais saudável."
+      " Sua mente agradece. Você merece proteção.",
+      " Cada 'não' é um investimento em paz de espírito.",
+      " Você está construindo um futuro mais saudável."
     ],
     tone: "empoderador"
   },
@@ -394,9 +394,9 @@ const nudges = {
   site_attempt: {
     trigger: "Tentativa de acessar site de apostas",
     messages: [
-      "⏸️ Que tal dar um respiro? Seu patrimônio merece.",
-      "🧠 Decisões financeiras sob impulso raramente são as melhores.",
-      "💎 O verdadeiro lucro é proteger o que você tem."
+      " Que tal dar um respiro? Seu patrimônio merece.",
+      " Decisões financeiras sob impulso raramente são as melhores.",
+      " O verdadeiro lucro é proteger o que você tem."
     ],
     tone: "reflexivo"
   },
@@ -404,9 +404,9 @@ const nudges = {
   repeated_attempts: {
     trigger: "3+ tentativas em 1 hora",
     messages: [
-      "🫂 Notamos um padrão. Tudo bem pedir ajuda.",
-      "📞 CVV: 188 | Você não está sozinho(a).",
-      "💪 Você já foi forte 14 vezes hoje. Pode ser forte mais uma."
+      " Notamos um padrão. Tudo bem pedir ajuda.",
+      " CVV: 188 | Você não está sozinho(a).",
+      " Você já foi forte 14 vezes hoje. Pode ser forte mais uma."
     ],
     tone: "apoio",
     action: "offer_resources"
@@ -415,9 +415,9 @@ const nudges = {
   milestone_reached: {
     trigger: "Conquista desbloqueada",
     messages: [
-      "🎉 7 dias protegido(a)! Você é mais forte do que pensa.",
-      "🏆 100 bloqueios! Cada um é uma vitória silenciosa.",
-      "💰 R$ 1.000 preservados! Isso é um investimento de verdade."
+      " 7 dias protegido(a)! Você é mais forte do que pensa.",
+      " 100 bloqueios! Cada um é uma vitória silenciosa.",
+      " R$ 1.000 preservados! Isso é um investimento de verdade."
     ],
     tone: "celebrativo"
   }
@@ -425,17 +425,17 @@ const nudges = {
 ```
 
 **Princípios de Design:**
-- ❌ **Nunca:** Tom de culpa ou julgamento
-- ✅ **Sempre:** Linguagem de empoderamento
-- ❌ **Nunca:** "Você está errado"
-- ✅ **Sempre:** "Você merece melhor"
+-  **Nunca:** Tom de culpa ou julgamento
+-  **Sempre:** Linguagem de empoderamento
+-  **Nunca:** "Você está errado"
+-  **Sempre:** "Você merece melhor"
 
 **Implementação:**
-- [ ] Sistema de templates de mensagens
-- [ ] Algoritmo de seleção contextual
-- [ ] A/B testing de eficácia das mensagens
-- [ ] Opção de personalização pelo usuário
-- [ ] Analytics de engajamento (anonimizado)
+-  Sistema de templates de mensagens
+-  Algoritmo de seleção contextual
+-  A/B testing de eficácia das mensagens
+-  Opção de personalização pelo usuário
+-  Analytics de engajamento (anonimizado)
 
 **Métricas de Sucesso:**
 - Taxa de engajamento com nudges > 60%
@@ -444,15 +444,15 @@ const nudges = {
 
 ---
 
-### 📊 KPIs do Horizonte 2
+###  KPIs do Horizonte 2
 
 | Métrica | Baseline | Meta Q2 | Status |
 |---------|----------|---------|--------|
-| Detecção Visual | 0% | 50%+ dos bloqueios | 📋 |
-| Engajamento Dashboard | - | >3 aberturas/semana | 📋 |
-| Eficácia de Nudges | - | 60% engajamento | 📋 |
-| NPS (Net Promoter Score) | - | >50 | 📋 |
-| Retenção 30 dias | - | >70% | 📋 |
+| Detecção Visual | 0% | 50%+ dos bloqueios |  |
+| Engajamento Dashboard | - | >3 aberturas/semana |  |
+| Eficácia de Nudges | - | 60% engajamento |  |
+| NPS (Net Promoter Score) | - | >50 |  |
+| Retenção 30 dias | - | >70% |  |
 
 ### Objetivos
 Expandir a proteção além do YouTube, criando uma rede de defesa em múltiplas plataformas.
@@ -468,7 +468,7 @@ Expandir a proteção além do YouTube, criando uma rede de defesa em múltiplas
 | **Firefox & Edge** | 🟡 Média | Baixa | Q3 2025 |
 | **API de Exportação** | 🟢 Baixa | Média | Q3 2025 |
 
-#### 📱 Multi-Plataforma: Instagram Reels
+####  Multi-Plataforma: Instagram Reels
 
 **Desafio:** Instagram usa React/GraphQL com estrutura complexa.
 
@@ -482,11 +482,11 @@ Expandir a proteção além do YouTube, criando uma rede de defesa em múltiplas
 ```
 
 **Impacto Esperado:**
-- 🎯 Proteção em uma das maiores plataformas de influência
-- 📊 70% dos influenciadores de apostas estão no Instagram
-- 🔥 Reels são o formato com maior taxa de conversão
+-  Proteção em uma das maiores plataformas de influência
+-  70% dos influenciadores de apostas estão no Instagram
+-  Reels são o formato com maior taxa de conversão
 
-#### 📱 Multi-Plataforma: TikTok Web
+#### Multi-Plataforma: TikTok Web
 
 **Por que é importante:**
 - TikTok é a plataforma de crescimento mais rápido para conteúdo de apostas
@@ -502,13 +502,13 @@ Expandir a proteção além do YouTube, criando uma rede de defesa em múltiplas
 - Bloqueio de hashtags trending
 ```
 
-#### ⏰ Modo Foco Profundo
+####  Modo Foco Profundo
 
 **Conceito:** Agendamento de horários onde o bloqueio é TOTAL.
 
 **Recursos:**
 ```
-🎯 Configurações de Foco
+ Configurações de Foco
 ├── Horário de Trabalho (9h-18h)
 │   └── Bloqueia TODO conteúdo de entretenimento
 ├── Horário de Estudo (19h-22h)
@@ -520,13 +520,13 @@ Expandir a proteção além do YouTube, criando uma rede de defesa em múltiplas
 ```
 
 **Benefícios Psicológicos:**
-- 🧠 Reduz fadiga de decisão
-- ⏱️ Cria barreiras temporais contra impulsos
-- 📈 Aumenta produtividade e bem-estar
+-  Reduz fadiga de decisão
+-  Cria barreiras temporais contra impulsos
+-  Aumenta produtividade e bem-estar
 
 ---
 
-## 🧬 Fase 3: Inteligência Comportamental (Longo Prazo - 6-12 meses)
+##  Fase 3: Inteligência Comportamental (Longo Prazo - 6-12 meses)
 
 ### Objetivos
 Transformar o BetNet de ferramenta de bloqueio em **assistente de saúde financeira** com IA comportamental.
@@ -542,7 +542,7 @@ Transformar o BetNet de ferramenta de bloqueio em **assistente de saúde finance
 | **Integração com Apps Financeiros** | 🟢 Baixa | Alta | Q1 2026 |
 | **Modo Família/Compartilhado** | 🟡 Média | Média | Q4 2025 |
 
-#### 💬 Notificações de Respiro (Psicologia Reversa)
+####  Notificações de Respiro (Psicologia Reversa)
 
 **Baseado no Slide 6 do seu roteiro de Psicologia Reversa.**
 
@@ -559,14 +559,14 @@ Transformar o BetNet de ferramenta de bloqueio em **assistente de saúde finance
    → "Decisões financeiras noturnas raramente são as melhores."
 
 4. Após bloqueio bem-sucedido (reforço positivo)
-   → "🎉 Você acabou de proteger seu futuro!"
+   → " Você acabou de proteger seu futuro!"
 ```
 
 **Tom das Mensagens:**
-- ❌ NÃO: "Você está errado", "Isso é ruim"
-- ✅ SIM: "Você merece melhor", "Seu futuro agradece"
+-  NÃO: "Você está errado", "Isso é ruim"
+-  SIM: "Você merece melhor", "Seu futuro agradece"
 
-#### 💰 Relatórios de Economia (Dinheiro Preservado)
+####  Relatórios de Economia (Dinheiro Preservado)
 
 **Conceito:** Converter bloqueios em métricas financeiras tangíveis.
 
@@ -585,18 +585,18 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 **Visualização:**
 ```
-💰 Seu Patrimônio Protegido
+ Seu Patrimônio Protegido
 ├── Esta semana: R$ 220,00
 ├── Este mês: R$ 952,50
 ├── Este ano: R$ 8.847,00
-├── 📊 Comparativo: "Com esse valor, você poderia:"
-│   ├── 💎 Investir em Tesouro IPCA+ por 5 anos = ~R$ 14.000
-│   ├── 🎓 Fazer 2 cursos profissionalizantes
-│   └── 🏝️ Viajar para o Nordeste com a família
-└── 📈 Gráfico de crescimento patrimônial protegido
+├──  Comparativo: "Com esse valor, você poderia:"
+│   ├──  Investir em Tesouro IPCA+ por 5 anos = ~R$ 14.000
+│   ├──  Fazer 2 cursos profissionalizantes
+│   └──  Viajar para o Nordeste com a família
+└──  Gráfico de crescimento patrimônial protegido
 ```
 
-#### 🔮 IA de Previsão de Recaída
+####  IA de Previsão de Recaída
 
 **Objetivo:** Antecipar momentos de vulnerabilidade usando Machine Learning.
 
@@ -612,7 +612,7 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 **Ações Preventivas:**
 ```
-🚨 Sistema de Alerta Precoce
+ Sistema de Alerta Precoce
 ├── Nível 1 (Verde): Lembrete gentil
 ├── Nível 2 (Amarelo): Sugestão de atividade alternativa
 ├── Nível 3 (Laranja): Ativar Modo Foco por 2h
@@ -621,7 +621,7 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 ---
 
-## 🏢 Fase 4: Monetização Sustentável (12+ meses)
+##  Fase 4: Monetização Sustentável (12+ meses)
 
 ### Modelo de Negócio
 
@@ -634,7 +634,7 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 ### Parcerias Estratégicas
 ```
-🤝 Potenciais Parceiros
+ Potenciais Parceiros
 ├── Bancos Digitais (Nubank, Inter, C6)
 │   └── Integração com apps de controle financeiro
 ├── Fintechs de Educação Financeira
@@ -647,11 +647,11 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 ---
 
-## 📈 Métricas de Sucesso
+##  Métricas de Sucesso
 
 ### KPIs Técnicos
 ```
-🎯 Metas de Performance
+ Metas de Performance
 ├── Taxa de Detecção: >95%
 ├── Falsos Positivos: <2%
 ├── Tempo de Resposta: <100ms
@@ -661,7 +661,7 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 ### KPIs de Impacto Social
 ```
-💜 Metas de Impacto
+ Metas de Impacto
 ├── Usuários Ativos: 100k+ (ano 1)
 ├── Vídeos Bloqueados: 10M+ (ano 1)
 ├── Economia Estimada Total: R$ 50M+ (ano 1)
@@ -671,11 +671,11 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 ---
 
-## 🛠️ Stack Tecnológico Planejado
+##  Stack Tecnológico Planejado
 
 ### Infraestrutura Futura
 ```
-🏗️ Evolução Tecnológica
+ Evolução Tecnológica
 ├── Frontend
 │   ├── React (para dashboard web)
 │   ├── Tailwind CSS (design system)
@@ -695,21 +695,21 @@ Resultado: "Você preservou aproximadamente R$ 952,50 este mês"
 
 ---
 
-## 🤝 Como Contribuir com o Roadmap
+##  Como Contribuir com o Roadmap
 
 Você tem ideias para melhorar o BetNet? Contribua!
 
-### 💡 Sugestões de Features
+###  Sugestões de Features
 1. Abra uma [Issue](https://github.com/Kaylanekymberly/BetNet/issues) com a tag `enhancement`
 2. Descreva o problema que a feature resolve
 3. Explique o impacto esperado
 
-### 🐛 Reportar Bugs ou Limitações
+###  Reportar Bugs ou Limitações
 1. Abra uma [Issue](https://github.com/Kaylanekymberly/BetNet/issues) com a tag `bug`
 2. Inclua prints e passos para reproduzir
 3. Descreva o comportamento esperado vs atual
 
-### 💻 Implementar Features
+###  Implementar Features
 1. Escolha uma feature do Roadmap
 2. Comente na Issue correspondente
 3. Faça um Fork e desenvolva
@@ -717,74 +717,73 @@ Você tem ideias para melhorar o BetNet? Contribua!
 
 ---
 
-## 📅 Timeline Visual
+##  Timeline Visual
 
 ```
 2025
 │
 ├── Q1 ─────────────────────────────────────
-│   ├── ✅ v1.0 - Lançamento MVP
-│   ├── ✅ v1.1 - Otimizações de Performance
-│   ├── 🔄 v1.2 - OCR + Dashboard Básico
-│   └── 📋 v1.3 - Sistema de Whitelist
+│   ├──  v1.0 - Lançamento MVP
+│   ├──  v1.1 - Otimizações de Performance
+│   ├──  v1.2 - OCR + Dashboard Básico
+│   └──  v1.3 - Sistema de Whitelist
 │
 ├── Q2 ─────────────────────────────────────
-│   ├── 📋 v2.0 - Instagram + TikTok
-│   ├── 📋 v2.1 - Modo Foco Profundo
-│   └── 📋 v2.2 - Notificações de Respiro
+│   ├──  v2.0 - Instagram + TikTok
+│   ├──  v2.1 - Modo Foco Profundo
+│   └──  v2.2 - Notificações de Respiro
 │
 ├── Q3 ─────────────────────────────────────
-│   ├── 📋 v3.0 - Firefox & Edge
-│   ├── 📋 v3.1 - Twitter/X Support
-│   └── 📋 v3.2 - API de Exportação
+│   ├──  v3.0 - Firefox & Edge
+│   ├──  v3.1 - Twitter/X Support
+│   └──  v3.2 - API de Exportação
 │
 └── Q4 ─────────────────────────────────────
-    ├── 📋 v4.0 - Relatórios de Economia
-    ├── 📋 v4.1 - Comunidade de Apoio
-    └── 📋 v4.2 - Modo Família
+    ├──  v4.0 - Relatórios de Economia
+    ├──  v4.1 - Comunidade de Apoio
+    └──  v4.2 - Modo Família
 │
 2026
 │
 └── Q1 ─────────────────────────────────────
-    ├── 📋 v5.0 - IA de Previsão
-    └── 📋 v5.1 - Integrações Financeiras
+    ├──  v5.0 - IA de Previsão
+    └──  v5.1 - Integrações Financeiras
 ```
 
 ---
 
-## 🎯 Princípios Norteadores
+##  Princípios Norteadores
 
 Todo desenvolvimento do BetNet segue estes princípios:
 
-1. **👤 Privacidade em Primeiro Lugar**
+1. ** Privacidade em Primeiro Lugar**
    - Nenhum dado pessoal é coletado sem consentimento
    - Processamento local sempre que possível
    - Transparência total sobre uso de dados
 
-2. **🧠 Baseado em Evidências**
+2. ** Baseado em Evidências**
    - Decisões guiadas por pesquisa em Psicologia Comportamental
    - Métricas validadas por profissionais CPA-20
    - Feedback constante de usuários reais
 
-3. **🌍 Impacto Social Mensurável**
+3. ** Impacto Social Mensurável**
    - Cada feature deve aumentar a proteção do usuário
    - Priorizar funcionalidades com maior ROI social
    - Sustentabilidade financeira sem comprometer a missão
 
-4. **⚡ Performance e UX**
+4. ** Performance e UX**
    - Extensão leve e rápida
    - Interface intuitiva
    - Zero fricção para o usuário
 
 ---
 
-## 📞 Contato para Parcerias
+##  Contato para Parcerias
 
 Interessado em colaborar com o BetNet?
 
-- 📧 Email: [seu-email@exemplo.com]
-- 💼 LinkedIn: [Seu LinkedIn]
-- 🐦 Twitter: [@SeuTwitter]
+- 📧 Email: kaylanekymberly123@gmail.com
+- 💼 LinkedIn: https://www.linkedin.com/in/kaylane-kimberly-09a6ba25b/
 
 ---
 
