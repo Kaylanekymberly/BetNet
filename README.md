@@ -1,4 +1,4 @@
-#  BetNet: Escudo Digital & Psicologia Reversa.
+#  BetNet: Escudo Digital & Psicologia Reversa
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)](https://chrome.google.com/webstore)
