@@ -164,7 +164,7 @@ chrome://extensions/
 
 ##  Roadmap
 
-Veja nosso [ROADMAP.md](ROADMAP.md) completo para conhecer os próximos passos do projeto.
+Veja nosso [ROADMAP.md](https://github.com/Kaylanekymberly/BetNet/blob/main/ROADMAP.md) completo para conhecer os próximos passos do projeto.
 
 ### Próximas Features
 -   IA de detecção de imagem (OCR em banners)
