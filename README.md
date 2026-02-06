@@ -91,7 +91,7 @@ BetNet/
 
 ## Visão Profissional (CPA-20)
 
-Como **profissional certificada CPA-20** (Certificação Profissional ANBIMA Série 20), entendo profundamente a importância da educação financeira e da proteção do investidor. Este projeto nasce da observação de um problema sistêmico:
+Como **profissional certificada CPA-20**, entendo profundamente a importância da educação financeira e da proteção do investidor. Este projeto nasce da observação de um problema sistêmico:
 
 ###  Análise de Risco
 - **Risco Comportamental:** Apostas exploram vieses cognitivos (falácia do jogador, ilusão de controle)
@@ -179,22 +179,6 @@ Veja nosso [ROADMAP.md](ROADMAP.md) completo para conhecer os próximos passos d
 
 Contribuições são **muito bem-vindas**! Este é um projeto de impacto social e sua ajuda pode proteger milhares de pessoas.
 
-### Como Contribuir
-
-1. **Fork o projeto**
-2. **Crie uma branch para sua feature** (`git checkout -b feature/MinhaFeature`)
-3. **Commit suas mudanças** (`git commit -m 'Adiciona MinhaFeature'`)
-4. **Push para a branch** (`git push origin feature/MinhaFeature`)
-5. **Abra um Pull Request**
-
-### Áreas que Precisam de Ajuda
--  Design UI/UX
--  Testes automatizados
--  Traduções (inglês, espanhol)
--  Documentação
--  Detecção de novos padrões
-
----
 
 ##  Licença
 
@@ -223,7 +207,7 @@ Condições:
 
 ### Conecte-se
 - GitHub: [@Kaylanekymberly](https://github.com/Kaylanekymberly)
-- LinkedIn: [Seu LinkedIn]
+- LinkedIn: [[Seu LinkedIn]](https://www.linkedin.com/in/kaylane-kimberly-09a6ba25b/)
 - Email: [kaylanekymberly123@gmail.com]
 
 ---
