@@ -207,8 +207,8 @@ Condições:
 
 ### Conecte-se
 - GitHub: [@Kaylanekymberly](https://github.com/Kaylanekymberly)
-- LinkedIn: [[Seu LinkedIn]](https://www.linkedin.com/in/kaylane-kimberly-09a6ba25b/)
-- Email: [kaylanekymberly123@gmail.com]
+- LinkedIn: https://www.linkedin.com/in/kaylane-kimberly-09a6ba25b/
+- Email: kaylanekymberly123@gmail.com
 
 ---
 
