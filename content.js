@@ -1,788 +1,538 @@
-// ========================================
-// ESCUDO DIGITAL - Content Script
-// Bloqueio de sites de apostas e vídeos relacionados
-// ========================================
+/**
+ * BetNet - Bloqueador de Conteúdo de Apostas no YouTube
+ * Content Script para detectar e bloquear vídeos relacionados a apostas
+ */
 
-// ========================================
-// BLOQUEIO GLOBAL DE CAPTURA 🔥
-// Intercepta cliques ANTES do YouTube processar
-// ========================================
-
-document.addEventListener('click', (e) => {
-  // Busca o link que o usuário tentou clicar
-  const link = e.target.closest("a[href*='youtube.com/watch'], a[href*='/shorts/']");
-  if (!link) return;
-
-  // Busca o renderer (container do vídeo)
-  const renderer = link.closest(
-    'ytd-video-renderer, ytd-grid-video-renderer, ytd-rich-item-renderer, ytd-reel-item-renderer, ytd-compact-video-renderer'
-  );
-
-  // Se o vídeo está marcado como bloqueado, MATA o clique
-  if (renderer && renderer.dataset.blocked === 'true') {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    e.stopPropagation();
-    console.log('🛡️ Clique BLOQUEADO no capture global');
-    return false;
-  }
-}, true); // 🔥 CAPTURE: true = pega o evento ANTES de qualquer outro listener
-
-// ========================================
-// CONSTANTES DE CONFIGURAÇÃO
-// ========================================
-
+// Configurações
 const CONFIG = {
-  // Estilos do bloqueio
-  CARD: {
-    SIZE: '150px', // Tamanho fixo do card
-    BG_COLOR: '#1a1a2e',
-    BORDER_COLOR: '#a855f7',
-    BORDER_WIDTH: '2px',
-    BORDER_RADIUS: '15px',
-    SHADOW: '0 0 20px rgba(168, 85, 247, 0.4)'
-  },
-  
-  // Estilos do backdrop
-  BACKDROP: {
-    BG_COLOR: 'rgba(0, 0, 0, 0.95)',
-    Z_INDEX: 999998
-  },
-  
-  // Z-index
-  Z_INDEX: {
-    BACKDROP: 999998,
-    OVERLAY: 999999
-  },
-  
-  // Cores do shield
-  SHIELD: {
-    GRADIENT_START: '#3b82f6',
-    GRADIENT_END: '#60a5fa',
-    GLOW: 'rgba(59, 130, 246, 0.6)'
-  },
-  
-  // Intervalos de verificação
-  CHECK_INTERVAL_MS: 2000,
-  
-  // Mensagens
-  MESSAGES: {
-    TITLE: 'Bloqueado',
-    SUBTITLE: 'Conteúdo de apostas',
-    BADGE: 'Escudo Digital'
-  }
+  CHECK_INTERVAL_MS: 1000, // Verificar a cada 1 segundo
+  KEYWORDS: [
+    // Apostas gerais
+    'bet', 'aposta', 'apostas', 'betting', 'casino', 'cassino',
+    
+    // Jogos específicos
+    'blaze', 'fortune', 'tiger', 'slots', 'roleta', 'crash',
+    'double', 'mines', 'aviator', 'spaceman', 'penalty',
+    'tigrinho', 'jogo do tigre', 'jogo do foguete', 'joguinho',
+    
+    // Frases comuns
+    'casa de apostas', 'bônus de apostas', 'ganhar dinheiro',
+    'estratégia de aposta', 'como ganhar', 'dinheiro fácil',
+    'renda extra', 'ganhos garantidos', 'método infalível',
+    
+    // Sites e plataformas
+    'bet365', 'betano', 'sportingbet', 'pixbet', 'esporte da sorte',
+    '1xbet', 'betfair', 'betway', 'betnacional', 'betmotion',
+    'f12bet', 'novibet', 'parimatch', 'rivalo', 'estrela bet',
+    
+    // Variações e gírias
+    'bets', 'aposto', 'apostador', 'green', 'red', 'odd',
+    'stake', 'rollover', 'cashout', 'handicap', 'over', 'under',
+    
+    // Hashtags comuns
+    '#bet', '#apostas', '#blaze', '#tiger', '#fortunetiger',
+    '#aviator', '#crashgame', '#cassino', '#betting'
+  ],
+  BLOCKED_CHANNELS: [] // IDs de canais específicos (opcional)
 };
 
-// ========================================
-// LISTAS DE PALAVRAS-CHAVE
-// ========================================
-
-// Lista de palavras-chave relacionadas a apostas
-const bettingKeywords = [
-  // Nomes de jogos e plataformas
-  'aposta', 'apostas', 'bets', 'betting',
-  'cassino', 'casino', 'casinò',
-  'blaze', 'blazer',
-  'tiger', 'tigre', 'tigrinho',
-  'fortune', 'fortuna',
-  'rabbit', 'coelho',
-  'mines', 'minas',
-  'aviator', 'aviador', 'avião',
-  'crash', 'spaceman',
-  'double', 'roleta', 'roulette',
-  'slot', 'slots', 'caça-níquel', 'caca niquel',
-  
-  // Sites específicos
-  'bet365', 'betano', 'pixbet', 'sportingbet',
-  'betfair', '1xbet', 'bwin', 'rivalo',
-  'esportedasorte', 'esporte da sorte',
-  'betway', 'pokerstars', '888sport',
-  'novibet', 'parimatch', 'galera bet',
-  'stake', 'bc.game', 'bc game',
-  
-  // Termos relacionados
-  'palpite', 'palpites', 'tips', 'dica',
-  'odd', 'odds', 'banca', 'bankroll',
-  'saldo', 'depósito', 'deposito', 'saque',
-  'greens', 'green', 'reds', 'red',
-  'estratégia', 'estrategia', 'método', 'metodo',
-  'sistema', 'técnica', 'tecnica',
-  'martingale', 'fibonacci',
-  
-  // Frases e contextos
-  'ganhar dinheiro', 'dinheiro fácil', 'dinheiro facil',
-  'ganhar na bet', 'como ganhar',
-  'renda extra', 'trabalhar em casa',
-  'ficar rico', 'enriquecer',
-  'paga mesmo', 'pagando', 'pagou',
-  'saque imediato', 'saque rápido', 'saque rapido',
-  'bônus', 'bonus', 'free bet', 'aposta grátis', 'aposta gratis',
-  
-  // Jogos específicos
-  'fortune tiger', 'fortune rabbit', 'fortune ox',
-  'fortune mouse', 'fortune dragon',
-  'penalty shoot-out', 'penalty',
-  'balloon', 'balão', 'balao',
-  'plinko', 'dice', 'dados',
-  'bacará', 'baccarat', 'bacara',
-  'blackjack', 'poker', '21',
-  
-  // Plataformas e apps
-  'plataforma nova', 'nova plataforma',
-  'plataforma pagando', 'app pagando',
-  'plataforma bet', 'site de aposta',
-  'jogo de aposta', 'jogos de aposta',
-  'casa de aposta', 'casas de aposta',
-  
-  // Termos técnicos
-  'live bet', 'ao vivo', 'in-play',
-  'pre-match', 'pré-jogo',
-  'cashout', 'cash out',
-  'over', 'under', 'handicap',
-  'spread', 'parlay', 'acumulada',
-  
-  // Gírias e variações
-  'jogo do', 'joguinho', 'jogar',
-  'ta pagando', 'tá pagando', 'está pagando',
-  'buga', 'bug', 'hack', 'robô', 'robo', 'bot',
-  'script', 'sinais', 'sinal', 'grupo vip',
-  
-  // Jogos de azar
-  'jogo de azar', 'jogos de azar',
-  'gambling', 'gamble', 'gambler',
-  'azar', 'sorte', 'lucky'
-];
-
-// Lista de exceções - conteúdo legítimo que NÃO deve ser bloqueado
-const whitelistKeywords = [
-  // Entretenimento e premiações
-  'bet awards', 'bet+', 'bet hip hop', 'bet her',
-  'black entertainment television',
-  
-  // Culinária
-  'receita', 'receitas', 'cozinha', 'chef',
-  'ingredientes', 'preparo', 'fazer',
-  
-  // Alfabeto e educação
-  'alfabeto', 'letra', 'aprender',
-  'educação', 'educacao', 'escola',
-  
-  // Tecnologia legítima
-  'typescript', 'javascript', 'alphabet',
-  'beta', 'beta version', 'versão beta',
-  
-  // Documentários e natureza
-  'documentário', 'documentario',
-  'natureza', 'wildlife', 'animal',
-  
-  // Esportes legítimos
-  'treino', 'workout', 'fitness',
-  'corrida', 'running', 'maratona'
-];
-
-// Lista de sites de apostas conhecidos
-const bettingSites = [
-  'bet365', 'betano', 'sportingbet', 'betfair', '1xbet',
-  'bwin', 'rivalo', 'pixbet', 'esportedasorte', 'blaze',
-  'betway', 'pokerstars', '888sport', 'novibet', 'parimatch',
-  'stake', 'bc.game', 'f12bet', 'luva.bet', 'estrela.bet',
-  'superbet', 'betmotion', 'betsson'
-];
-
-// ========================================
-// FUNÇÕES AUXILIARES - VALIDAÇÃO
-// ========================================
-
-/**
- * Valida se o elemento é válido para bloqueio
- * @param {HTMLElement} element - Elemento a ser validado
- * @returns {boolean} - True se válido
- */
-function isValidElement(element) {
-  if (!element) {
-    console.warn('Escudo Digital: Elemento inválido fornecido');
-    return false;
-  }
-  
-  if (!(element instanceof HTMLElement)) {
-    console.warn('Escudo Digital: Não é um HTMLElement');
-    return false;
-  }
-  
-  return true;
-}
+// Estado
+let blockedCount = 0;
+let observer = null;
 
 /**
  * Verifica se o texto contém palavras-chave de apostas
- * @param {string} text - Texto a ser verificado
- * @returns {boolean} - True se contém palavras de apostas
  */
-function containsBettingKeywords(text) {
-  if (!text || typeof text !== 'string') return false;
+function containsBetKeywords(text) {
+  if (!text) return false;
   
-  const lowerText = text.toLowerCase();
+  const normalizedText = text.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
   
-  // PRIMEIRO: Verificar se está na whitelist (conteúdo legítimo)
-  const isWhitelisted = whitelistKeywords.some(keyword => 
-    lowerText.includes(keyword.toLowerCase())
-  );
-  
-  // Se estiver na whitelist, NÃO bloquear
-  if (isWhitelisted) return false;
-  
-  // DEPOIS: Verificar se contém palavras de apostas
-  return bettingKeywords.some(keyword => 
-    lowerText.includes(keyword.toLowerCase())
-  );
-}
-
-// ========================================
-// FUNÇÕES AUXILIARES - CRIAÇÃO DE ELEMENTOS
-// ========================================
-
-/**
- * Cria o HTML interno do card de bloqueio
- * Otimizado para 150x150px
- * @returns {string} - HTML do conteúdo
- */
-function createBlockMessageHTML() {
-  return `
-    <div style="text-align: center; padding: 10px;">
-      <!-- Shield Icon -->
-      <svg width="40" height="40" viewBox="0 0 24 24" style="margin-bottom: 8px; filter: drop-shadow(0 0 8px ${CONFIG.SHIELD.GLOW});">
-        <defs>
-          <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:${CONFIG.SHIELD.GRADIENT_START};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:${CONFIG.SHIELD.GRADIENT_END};stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <path fill="url(#shieldGradient)" d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91c4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
-      </svg>
-      
-      <div style="font-size: 14px; font-weight: 600; color: ${CONFIG.CARD.BORDER_COLOR}; margin-bottom: 4px; line-height: 1.2;">
-        ${CONFIG.MESSAGES.TITLE}
-      </div>
-      
-      <div style="font-size: 9px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px; line-height: 1.2;">
-        ${CONFIG.MESSAGES.SUBTITLE}
-      </div>
-      
-      <div style="font-size: 8px; padding: 3px 8px; background: rgba(168, 85, 247, 0.2); 
-                  border-radius: 4px; color: rgba(255, 255, 255, 0.6); display: inline-block;">
-        ${CONFIG.MESSAGES.BADGE}
-      </div>
-    </div>
-  `;
-}
-
-/**
- * Cria o elemento backdrop (fundo escuro que cobre 100% do vídeo)
- * Usa FLEX para centralizar o card
- * @returns {HTMLElement} - Elemento backdrop
- */
-function createBackdrop() {
-  const backdrop = document.createElement('div');
-  backdrop.style.cssText = `
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: ${CONFIG.BACKDROP.BG_COLOR} !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: ${CONFIG.Z_INDEX.BACKDROP} !important;
-    pointer-events: auto !important;
-  `;
-  
-  // Accessibility
-  backdrop.setAttribute('role', 'alert');
-  backdrop.setAttribute('aria-live', 'polite');
-  backdrop.setAttribute('aria-label', 'Conteúdo bloqueado por conter material de apostas');
-  
-  return backdrop;
-}
-
-/**
- * Cria o elemento overlay (card quadrado centralizado)
- * ✅ CORREÇÃO APLICADA: Adiciona max-width e max-height para travar o tamanho
- * ✅ CORREÇÃO APLICADA: Adiciona flex-shrink: 0 para evitar compressão
- * ✅ CORREÇÃO APLICADA: Adiciona margin: auto para centralização perfeita
- * @returns {HTMLElement} - Elemento overlay
- */
-function createOverlay() {
-  const overlay = document.createElement('div');
-  overlay.className = 'escudo-digital-block';
-  
-  // Aplicando as configurações do CONFIG
-  overlay.style.cssText = `
-    /* TRAVAS DE TAMANHO - Evita esticamento */
-    width: ${CONFIG.CARD.SIZE} !important;
-    height: ${CONFIG.CARD.SIZE} !important;
-    min-width: ${CONFIG.CARD.SIZE} !important;
-    min-height: ${CONFIG.CARD.SIZE} !important;
-    max-width: ${CONFIG.CARD.SIZE} !important;
-    max-height: ${CONFIG.CARD.SIZE} !important;
-    flex-shrink: 0 !important;
-    margin: auto !important;
-    
-    /* LAYOUT */
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-    
-    /* ESTILO VISUAL */
-    background: ${CONFIG.CARD.BG_COLOR} !important;
-    border: ${CONFIG.CARD.BORDER_WIDTH} solid ${CONFIG.CARD.BORDER_COLOR} !important;
-    border-radius: ${CONFIG.CARD.BORDER_RADIUS} !important;
-    box-shadow: ${CONFIG.CARD.SHADOW} !important;
-    
-    /* Z-INDEX */
-    z-index: ${CONFIG.Z_INDEX.OVERLAY} !important;
-    
-    /* OVERFLOW */
-    overflow: hidden !important;
-  `;
-  
-  overlay.innerHTML = createBlockMessageHTML();
-  
-  return overlay;
-}
-
-// ========================================
-// FUNÇÃO PRINCIPAL DE BLOQUEIO
-// ========================================
-
-/**
- * 🛡️ BLOQUEIO REAL - SEM FIRULAS
- * O overlay fica ACIMA do <a>, não dentro dele.
- * Isso é o que BLOQUEIA DE VERDADE.
- * 
- * @param {HTMLElement} item - Elemento do vídeo (ytd-video-renderer, etc)
- */
-function blockElement(item) {
-  if (!item || item.dataset.blocked) return;
-  item.dataset.blocked = 'true';
-
-  // O LINK REAL (onde o clique acontece)
-  const link = item.querySelector('a#thumbnail');
-  if (!link) return;
-
-  // Container EXTERNO do link (o overlay vai ser IRMÃO do link)
-  const wrapper = link.parentElement;
-  wrapper.style.position = 'relative';
-
-  // O BLOCKER (overlay que fica ACIMA do link)
-  const blocker = document.createElement('div');
-  blocker.className = 'shieldnet-blocker';
-  blocker.style.cssText = `
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(6px);
-    z-index: 99999;
-    pointer-events: auto;
-    cursor: not-allowed;
-  `;
-
-  // CANCELA O CLIQUE
-  blocker.addEventListener('click', e => {
-    e.preventDefault();
-    e.stopPropagation();
+  return CONFIG.KEYWORDS.some(keyword => {
+    const normalizedKeyword = keyword.toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    return normalizedText.includes(normalizedKeyword);
   });
-
-  // VISUAL DO BLOQUEIO
-  blocker.innerHTML = `
-    <div style="
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      color: white;
-      font-family: system-ui, -apple-system, sans-serif;
-    ">
-      <div style="
-        border: 2px solid #a855f7;
-        border-radius: 14px;
-        padding: 16px 20px;
-        background: rgba(26, 26, 46, 0.95);
-        text-align: center;
-      ">
-        <div style="font-size: 24px; margin-bottom: 4px;">🛡️</div>
-        <strong style="font-size: 16px;">Bloqueado</strong><br>
-        <span style="font-size: 13px; opacity: 0.8;">Conteúdo de apostas</span>
-      </div>
-    </div>
-  `;
-
-  // INSERE COMO IRMÃO DO LINK (não como filho!)
-  wrapper.appendChild(blocker);
-
-  // Notificar
-  notifyBackgroundScript('videoBlocked');
-  console.log('🛡️ Bloqueado:', item);
 }
 
 /**
- * Notifica o background script sobre eventos
- * @param {string} type - Tipo do evento
+ * Obtém o texto do elemento e seus filhos
  */
-function notifyBackgroundScript(type) {
-  try {
-    chrome.runtime.sendMessage({ type });
-  } catch (e) {
-    // Ignorar se background não disponível
-    console.log(`Escudo Digital: ${type}`);
-  }
-}
-
-// ========================================
-// BLOQUEIO DE VÍDEOS DO YOUTUBE
-// ========================================
-
-/**
- * Extrai todo o texto relevante de um elemento de vídeo
- * @param {HTMLElement} renderer - Elemento do vídeo
- * @param {object} selectors - Seletores CSS para buscar
- * @returns {string} - Texto combinado
- */
-function extractVideoText(renderer, selectors) {
+function getElementText(element) {
   const texts = [];
   
-  // Título
-  const titleElement = renderer.querySelector(selectors.title);
-  if (titleElement) {
-    texts.push(
-      titleElement.textContent || 
-      titleElement.getAttribute('aria-label') || 
-      titleElement.title || 
-      ''
-    );
-  }
+  // Título do vídeo (vários seletores para diferentes layouts)
+  const titleSelectors = [
+    '#video-title',
+    'h3',
+    '#title-link',
+    'a#video-title-link',
+    'yt-formatted-string.ytd-video-renderer',
+    'span#video-title'
+  ];
   
-  // Descrição
-  if (selectors.description) {
-    const descElement = renderer.querySelector(selectors.description);
-    if (descElement) texts.push(descElement.textContent || '');
-  }
+  titleSelectors.forEach(selector => {
+    const title = element.querySelector(selector);
+    if (title) texts.push(title.textContent || title.innerText || title.getAttribute('aria-label') || '');
+  });
   
-  // Canal
-  if (selectors.channel) {
-    const channelElement = renderer.querySelector(selectors.channel);
-    if (channelElement) texts.push(channelElement.textContent || '');
-  }
+  // Nome do canal
+  const channelSelectors = [
+    '#channel-name',
+    '.ytd-channel-name',
+    '#text',
+    'ytd-channel-name a',
+    'yt-formatted-string.ytd-channel-name'
+  ];
   
-  // Metadados
-  if (selectors.metadata) {
-    const metadataElements = renderer.querySelectorAll(selectors.metadata);
-    metadataElements.forEach(el => texts.push(el.textContent || ''));
-  }
+  channelSelectors.forEach(selector => {
+    const channel = element.querySelector(selector);
+    if (channel) texts.push(channel.textContent || channel.innerText || '');
+  });
+  
+  // Descrição e snippet
+  const descriptionSelectors = [
+    '#description-text',
+    'yt-formatted-string#description-text',
+    '#snippet-text'
+  ];
+  
+  descriptionSelectors.forEach(selector => {
+    const desc = element.querySelector(selector);
+    if (desc) texts.push(desc.textContent || desc.innerText || '');
+  });
+  
+  // Hashtags e badges
+  const badges = element.querySelectorAll('#hashtags a, .badge-style-type-live-now, .ytd-badge-supported-renderer');
+  badges.forEach(badge => {
+    texts.push(badge.textContent || badge.innerText || '');
+  });
+  
+  // Meta info (views, data, etc) - às vezes contém info relevante
+  const metaInfo = element.querySelector('#metadata-line, .ytd-video-meta-block');
+  if (metaInfo) texts.push(metaInfo.textContent || metaInfo.innerText || '');
   
   return texts.join(' ');
 }
 
 /**
- * Verifica e bloqueia vídeos regulares do YouTube
+ * Cria overlay de bloqueio
  */
-function checkRegularVideos() {
-  const videoRenderers = document.querySelectorAll(
-    'ytd-video-renderer, ytd-grid-video-renderer, ytd-compact-video-renderer, ytd-rich-item-renderer'
-  );
+function createBlockOverlay() {
+  const overlay = document.createElement('div');
+  overlay.className = 'betnet-blocked-overlay';
+  overlay.innerHTML = `
+    <div class="betnet-blocked-content">
+      <div class="betnet-shield-icon">🛡️</div>
+      <h3>Conteúdo Bloqueado</h3>
+      <p>Este vídeo contém conteúdo relacionado a apostas e foi bloqueado pelo BetNet.</p>
+      <small>Protegendo você de conteúdo prejudicial</small>
+    </div>
+  `;
   
-  videoRenderers.forEach(renderer => {
-    if (renderer.dataset.checked) return;
-    renderer.dataset.checked = 'true';
+  return overlay;
+}
+
+/**
+ * Bloqueia um elemento de vídeo
+ */
+function blockVideoElement(element) {
+  // Verificações de duplicação
+  if (element.classList.contains('betnet-blocked')) {
+    return; // Já bloqueado
+  }
+  
+  if (element.querySelector('.betnet-blocked-overlay')) {
+    return; // Já tem overlay
+  }
+  
+  // Marca como bloqueado ANTES de adicionar overlay (previne race condition)
+  element.classList.add('betnet-blocked');
+  element.setAttribute('data-betnet-blocked', 'true');
+  
+  // Garante que o elemento pai tenha position relative
+  const computedStyle = getComputedStyle(element);
+  if (computedStyle.position === 'static') {
+    element.style.position = 'relative';
+  }
+  
+  // Adiciona overlay que ocupa 100% do vídeo
+  const overlay = createBlockOverlay();
+  
+  // Para Shorts, ajusta o estilo do overlay
+  if (element.matches('ytd-reel-item-renderer')) {
+    overlay.querySelector('.betnet-blocked-content').style.width = '95%';
+    overlay.querySelector('.betnet-shield-icon').style.fontSize = '32px';
+  }
+  
+  element.appendChild(overlay);
+  
+  // Bloqueia todos os links dentro do elemento
+  const links = element.querySelectorAll('a');
+  links.forEach(link => {
+    link.style.pointerEvents = 'none';
+    link.style.cursor = 'not-allowed';
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }, { capture: true, passive: false });
+  });
+  
+  // Bloqueia cliques no elemento inteiro
+  element.style.pointerEvents = 'none';
+  element.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }, { capture: true, passive: false });
+  
+  blockedCount++;
+  console.log(`🛡️ BetNet: Vídeo bloqueado #${blockedCount}`, element.tagName);
+  
+  // Notifica o background script
+  try {
+    chrome.runtime.sendMessage({ type: 'VIDEO_BLOCKED' });
+  } catch (e) {
+    // Ignora erro se não conseguir enviar mensagem
+  }
+}
+
+/**
+ * Verifica e bloqueia vídeos na página inicial e busca
+ */
+function checkAndBlockYouTubeVideos() {
+  // Seletores para diferentes tipos de vídeos no YouTube
+  const videoSelectors = [
+    'ytd-video-renderer',           // Resultados de busca
+    'ytd-grid-video-renderer',      // Grade da página inicial
+    'ytd-rich-item-renderer',       // Página inicial (novo layout)
+    'ytd-compact-video-renderer',   // Sidebar de vídeos relacionados
+    'ytd-playlist-video-renderer',  // Vídeos em playlists
+    'ytd-reel-item-renderer'        // YouTube Shorts
+  ];
+  
+  videoSelectors.forEach(selector => {
+    const videos = document.querySelectorAll(`${selector}:not([data-betnet-blocked])`);
     
-    const text = extractVideoText(renderer, {
-      title: '#video-title, .ytd-video-meta-block #video-title',
-      description: '#description-text, .description-text, #metadata-line',
-      channel: '#channel-name, .ytd-channel-name a, #text.ytd-channel-name',
-      metadata: '.badge-style-type-simple, .badge, #metadata'
+    videos.forEach(video => {
+      // Dupla verificação para evitar processamento duplicado
+      if (video.classList.contains('betnet-blocked') || video.hasAttribute('data-betnet-blocked')) {
+        return;
+      }
+      
+      const text = getElementText(video);
+      
+      if (containsBetKeywords(text)) {
+        blockVideoElement(video);
+      }
     });
-    
-    if (containsBettingKeywords(text)) {
-      blockElement(renderer);
-    }
   });
 }
 
 /**
- * Verifica e bloqueia Shorts do YouTube
- * 🎯 BUSCA REFINADA: Foca nos containers de shorts E nos players internos
+ * Bloqueia Shorts na página /shorts
  */
-function checkShorts() {
-  // Buscar containers de shorts
-  const shorts = document.querySelectorAll(`
-    ytd-reel-item-renderer,
-    ytd-reel-video-renderer, 
-    ytd-shorts,
-    ytd-rich-section-renderer,
-    #shorts-container ytd-reel-item-renderer,
-    ytd-reel-shelf-renderer ytd-reel-item-renderer,
-    [is-shorts] ytd-reel-item-renderer,
-    yt-shorts-video-renderer,
-    #player-shorts-container,
-    .shorts-player,
-    #shorts-player
-  `.trim());
+function checkAndBlockShorts() {
+  // Seletor específico para Shorts na página dedicada
+  const shortsSelectors = [
+    'ytd-reel-video-renderer',
+    'ytd-shorts',
+    '#shorts-container ytd-reel-item-renderer'
+  ];
   
-  shorts.forEach(short => {
-    if (short.dataset.checked) return;
-    short.dataset.checked = 'true';
+  shortsSelectors.forEach(selector => {
+    const shorts = document.querySelectorAll(`${selector}:not([data-betnet-blocked])`);
     
-    const text = extractVideoText(short, {
-      title: '#video-title, .reel-video-title, h3, .title, yt-formatted-string#video-title, #text.ytd-reel-video-renderer',
-      description: '#overlay-text, .overlay-text, #metadata',
-      channel: '#channel-name, ytd-channel-name, .channel-name'
+    shorts.forEach(short => {
+      if (short.classList.contains('betnet-blocked')) {
+        return;
+      }
+      
+      const text = getElementText(short);
+      
+      if (containsBetKeywords(text)) {
+        blockVideoElement(short);
+      }
     });
-    
-    if (containsBettingKeywords(text)) {
-      blockElement(short);
-    }
   });
 }
 
 /**
- * Verifica e bloqueia o vídeo atualmente sendo assistido
+ * Bloqueia vídeo principal (quando assistindo)
  */
-function checkCurrentVideo() {
-  const videoTitle = document.querySelector('h1.ytd-watch-metadata yt-formatted-string, h1.title, #title h1');
-  const videoDescription = document.querySelector('#description-inline-expander, #description, ytd-text-inline-expander');
-  const channelName = document.querySelector('#channel-name #text, ytd-channel-name #text');
+function blockMainVideo() {
+  const videoTitle = document.querySelector('h1.ytd-video-primary-info-renderer, h1.ytd-watch-metadata');
+  const channelName = document.querySelector('ytd-channel-name #text, #owner-name');
   
   if (!videoTitle) return;
   
-  const title = videoTitle.textContent || '';
-  const description = videoDescription?.textContent || '';
-  const channel = channelName?.textContent || '';
-  const fullText = `${title} ${description} ${channel}`;
+  const text = (videoTitle.textContent || '') + ' ' + (channelName?.textContent || '');
   
-  if (containsBettingKeywords(fullText)) {
+  if (containsBetKeywords(text)) {
+    // Bloqueia o player de vídeo
     const player = document.querySelector('#movie_player, .html5-video-player');
-    
-    if (player && !player.dataset.blocked) {
-      player.dataset.blocked = 'true';
-      player.style.position = 'relative';
-
-      // BLOCKER para o player aberto
-      const blocker = document.createElement('div');
-      blocker.className = 'shieldnet-player-blocker';
-      blocker.style.cssText = `
-        position: absolute;
-        inset: 0;
-        background: black;
-        z-index: 99999;
-        pointer-events: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      `;
-
-      blocker.innerHTML = `
-        <div style="
-          color: white;
-          font-family: system-ui, -apple-system, sans-serif;
-          text-align: center;
-        ">
-          <div style="
-            border: 2px solid #a855f7;
-            border-radius: 16px;
-            padding: 24px 32px;
-            background: rgba(26, 26, 46, 0.95);
-          ">
-            <div style="font-size: 48px; margin-bottom: 12px;">🛡️</div>
-            <strong style="font-size: 24px; display: block; margin-bottom: 8px;">Conteúdo Bloqueado</strong>
-            <span style="font-size: 16px; opacity: 0.8;">Este vídeo contém conteúdo relacionado a apostas</span>
-          </div>
-        </div>
-      `;
-
-      player.appendChild(blocker);
+    if (player && !player.classList.contains('betnet-blocked')) {
+      player.classList.add('betnet-blocked');
       
-      // 🔥 MATAR O VÍDEO COMPLETAMENTE
+      // Para e remove o vídeo
       const video = player.querySelector('video');
       if (video) {
         video.pause();
-        video.currentTime = 0;
-        video.muted = true;
-        video.src = ''; // 🔥 Limpa a source
-        video.load();   // 🔥 Força reload vazio (impede autoplay/preload)
+        video.src = '';
+        video.load();
       }
-
-      notifyBackgroundScript('videoBlocked');
-      console.log('🛡️ Player bloqueado e vídeo morto');
+      
+      // Cria overlay que cobre todo o player
+      const overlay = createBlockOverlay();
+      overlay.style.position = 'absolute';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.zIndex = '9999';
+      overlay.style.borderRadius = '0';
+      
+      player.style.position = 'relative';
+      player.appendChild(overlay);
+      
+      // Bloqueia controles
+      const controls = player.querySelectorAll('.ytp-chrome-controls, .ytp-gradient-top, .ytp-gradient-bottom');
+      controls.forEach(control => {
+        control.style.display = 'none';
+      });
+      
+      console.log('🛡️ BetNet: Vídeo principal bloqueado e pausado!');
+      
+      // Notifica o background script
+      try {
+        chrome.runtime.sendMessage({ type: 'VIDEO_BLOCKED' });
+      } catch (e) {
+        // Ignora erro
+      }
     }
   }
 }
 
 /**
- * Verifica e bloqueia todos os tipos de vídeos do YouTube
+ * Injeta CSS para os overlays
  */
-function checkAndBlockYouTubeVideos() {
-  checkRegularVideos();
-  checkShorts();
-  checkCurrentVideo();
-}
-
-// ========================================
-// BLOQUEIO DE SITES DE APOSTAS
-// ========================================
-
-/**
- * Verifica se o site atual é um site de apostas
- * @returns {boolean} - True se for site de apostas
- */
-function isBettingSite() {
-  const hostname = window.location.hostname.toLowerCase();
-  return bettingSites.some(site => hostname.includes(site));
-}
-
-/**
- * Bloqueia sites de apostas inteiros
- */
-function blockBettingSite() {
-  if (!isBettingSite()) return;
+function injectStyles() {
+  if (document.getElementById('betnet-styles')) return;
   
-  // Notificar background script
-  notifyBackgroundScript('siteBlocked');
+  const style = document.createElement('style');
+  style.id = 'betnet-styles';
+  style.textContent = `
+    /* Overlay ocupa 100% do container do vídeo */
+    .betnet-blocked-overlay {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 1000 !important;
+      border-radius: 12px;
+      pointer-events: all !important;
+      cursor: not-allowed !important;
+    }
+    
+    /* Card centralizado proporcional (80% do overlay) */
+    .betnet-blocked-content {
+      text-align: center;
+      color: white;
+      padding: 16px;
+      width: 85%;
+      max-width: 300px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .betnet-shield-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    .betnet-blocked-content h3 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .betnet-blocked-content p {
+      margin: 0 0 4px 0;
+      font-size: 11px;
+      opacity: 0.95;
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .betnet-blocked-content small {
+      font-size: 9px;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    /* Remove interação do vídeo bloqueado */
+    .betnet-blocked {
+      pointer-events: none !important;
+    }
+    
+    .betnet-blocked a {
+      pointer-events: none !important;
+      cursor: not-allowed !important;
+    }
+    
+    /* Para thumbnails menores (sidebar, shorts) */
+    ytd-compact-video-renderer .betnet-blocked-content,
+    ytd-reel-item-renderer .betnet-blocked-content {
+      padding: 8px;
+      width: 90%;
+    }
+    
+    ytd-compact-video-renderer .betnet-shield-icon,
+    ytd-reel-item-renderer .betnet-shield-icon {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+    
+    ytd-compact-video-renderer .betnet-blocked-content h3,
+    ytd-reel-item-renderer .betnet-blocked-content h3 {
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    
+    ytd-compact-video-renderer .betnet-blocked-content p,
+    ytd-reel-item-renderer .betnet-blocked-content p {
+      font-size: 9px;
+    }
+    
+    ytd-compact-video-renderer .betnet-blocked-content small,
+    ytd-reel-item-renderer .betnet-blocked-content small {
+      font-size: 7px;
+    }
+  `;
   
-  // Redirecionar para a página de bloqueio
-  window.location.href = chrome.runtime.getURL('blocked.html');
+  document.head.appendChild(style);
 }
 
-// ========================================
-// INICIALIZAÇÃO
-// ========================================
-
 /**
- * Inicializa o monitoramento do YouTube
- * ✅ Proteção contra interval duplicado
+ * Inicializa o bloqueador no YouTube
  */
-let youtubeInterval = null;
-let youtubeObserver = null;
-
 function initializeYouTube() {
-  // Evitar inicialização duplicada
-  if (youtubeInterval) {
-    console.log('🛡️ Escudo Digital já está ativo no YouTube');
-    return;
-  }
-
+  console.log('🛡️ BetNet: Escudo Digital ativo no YouTube!');
+  
+  // Injeta estilos
+  injectStyles();
+  
   // Verificação inicial
   checkAndBlockYouTubeVideos();
+  checkAndBlockShorts();
+  blockMainVideo();
   
-  // Observar mudanças na página (para SPA do YouTube)
-  if (!youtubeObserver) {
-    youtubeObserver = new MutationObserver(() => {
-      checkAndBlockYouTubeVideos();
-    });
-    
-    youtubeObserver.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  }
+  // Observar mudanças na página (navegação SPA do YouTube)
+  observer = new MutationObserver(() => {
+    checkAndBlockYouTubeVideos();
+    checkAndBlockShorts();
+    blockMainVideo();
+  });
+  
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
   
   // Verificação periódica (para conteúdo dinâmico)
-  youtubeInterval = setInterval(checkAndBlockYouTubeVideos, CONFIG.CHECK_INTERVAL_MS);
+  setInterval(() => {
+    checkAndBlockYouTubeVideos();
+    checkAndBlockShorts();
+    blockMainVideo();
+  }, CONFIG.CHECK_INTERVAL_MS);
   
-  console.log('🛡️ Escudo Digital ativo no YouTube!');
+  // Log de estatísticas a cada minuto
+  setInterval(() => {
+    if (blockedCount > 0) {
+      console.log(`📊 BetNet Stats: ${blockedCount} vídeos bloqueados nesta sessão`);
+    }
+  }, 60000);
+}
+
+/**
+ * Bloqueia site inteiro (para sites de apostas)
+ */
+function blockBettingSite() {
+  document.body.innerHTML = `
+    <div style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+    ">
+      <div style="text-align: center; color: white; max-width: 500px; padding: 40px;">
+        <div style="font-size: 80px; margin-bottom: 24px;">🛡️</div>
+        <h1 style="font-size: 32px; margin-bottom: 16px;">Site Bloqueado</h1>
+        <p style="font-size: 18px; margin-bottom: 24px; opacity: 0.95;">
+          Este site foi bloqueado pelo BetNet para sua proteção.
+        </p>
+        <p style="font-size: 14px; opacity: 0.8;">
+          Sites de apostas podem causar dependência e prejuízos financeiros.
+        </p>
+      </div>
+    </div>
+  `;
+  
+  console.log('🛡️ BetNet: Site de apostas bloqueado!');
 }
 
 /**
  * Ponto de entrada principal
  */
 function initialize() {
-  console.log('🛡️ Escudo Digital iniciando...');
+  const hostname = window.location.hostname;
   
-  if (window.location.hostname.includes('youtube.com')) {
+  if (hostname.includes('youtube.com')) {
     initializeYouTube();
   } else {
-    blockBettingSite();
+    // Para outros sites, você pode adicionar lógica de bloqueio total
+    // Exemplo: verificar se é um site de apostas conhecido
+    const bettingSites = [
+      'bet365', 'betano', 'sportingbet', 'pixbet', 
+      'blaze', 'esportesdasorte', '1xbet'
+    ];
+    
+    if (bettingSites.some(site => hostname.includes(site))) {
+      blockBettingSite();
+    }
   }
 }
 
-// ========================================
-// INICIALIZAÇÃO
-// ========================================
-
-// Aguardar o DOM estar pronto antes de iniciar
+// Inicializa quando o DOM estiver pronto
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initialize);
 } else {
-  // DOM já está pronto
   initialize();
 }
-// content.js - VERSÃO FINAL (SEM FIRULAS)
-
-const KEYWORDS = [
-  'podcast', 'cortes', 'flow', 'podpah', 'inteligência', 
-  'venus', 'lindomar', 'debate', 'react', 'reagindo'
-];
-
-// 🎯 FUNÇÃO DE VERIFICAÇÃO (RÁPIDA E DIRETA)
-function shouldBlock(text) {
-  if (!text) return false;
-  const lower = text.toLowerCase();
-  return KEYWORDS.some(kw => lower.includes(kw));
-}
-
-// 🔥 MARCAR ELEMENTOS BLOQUEADOS
-function markBlockedVideos() {
-  const selectors = [
-    'ytd-video-renderer',
-    'ytd-grid-video-renderer', 
-    'ytd-rich-item-renderer',
-    'ytd-reel-item-renderer'
-  ];
-
-  selectors.forEach(selector => {
-    document.querySelectorAll(`${selector}:not([data-checked])`).forEach(item => {
-      item.dataset.checked = 'true';
-      
-      const title = item.querySelector('#video-title, h3, .title')?.textContent || '';
-      const channel = item.querySelector('#channel-name, .ytd-channel-name')?.textContent || '';
-      
-      if (shouldBlock(title) || shouldBlock(channel)) {
-        item.dataset.blocked = 'true';
-        item.style.opacity = '0.3';
-        item.style.pointerEvents = 'none';
-        console.log('🛡️ Bloqueado:', { title, channel });
-      }
-    });
-  });
-}
-
-// 🔥 KILLER DE EVENTOS (ANTES DO CLICK)
-const KILL_EVENTS = (e) => {
-  const link = e.target.closest("a[href]");
-  if (!link) return;
-
-  const renderer = link.closest(
-    'ytd-video-renderer, ytd-grid-video-renderer, ytd-rich-item-renderer, ytd-reel-item-renderer'
-  );
-
-  if (renderer?.dataset.blocked === 'true') {
-    console.warn('🛡️ BLOQUEIO REAL ATIVADO');
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    e.stopPropagation();
-    return false;
-  }
-};
-
-//  REGISTRAR NOS EVENTOS CERTOS
-['pointerdown', 'mousedown', 'touchstart'].forEach(evt => {
-  document.addEventListener(evt, KILL_EVENTS, true);
-});
-
-//  OBSERVAR MUDANÇAS
-const observer = new MutationObserver(() => markBlockedVideos());
-observer.observe(document.body, { childList: true, subtree: true });
-
-//  EXECUÇÃO INICIAL
-markBlockedVideos();
